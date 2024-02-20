@@ -145,18 +145,18 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed bg-dark-subtle" data-bs-target="#components-nav-viajero" data-bs-toggle="collapse" href="#">
+        <a class="nav-link collapsed bg-dark-subtle" data-bs-target="#components-nav-usuarios" data-bs-toggle="collapse" href="#">
           <i class="bi bi-people"></i><span>Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="components-nav-viajero" class="nav-content collapse {% if request.path == '/viajeros/' or request.path == '/viajeros/agregar/'  %} show {% endif %}" >
+        <ul id="components-nav-usuarios" class="nav-content collapse {% if request.path == '/usuarios/' or request.path == '/usuarios/agregar/'  %} show {% endif %}" >
           <li>
             <a href="{% url 'lista_viajeros' %}" class="{% if request.path == '/viajeros/' %} active text-primary {% endif %}">
-              <i class="bi bi-list" style="font-size: 20px" ></i><span>Listar Viajeros</span>
+              <i class="bi bi-list" style="font-size: 20px" ></i><span>Listar Usuarios</span>
             </a>
           </li>
           <li>
             <a href="{% url 'agregar_viajero' %}" class="{% if request.path == '/viajeros/agregar/' %} active text-primary {% endif %}">
-              <i class="bi bi-plus" style="font-size: 20px"></i><span>Agregar Viajero</span>
+              <i class="bi bi-plus" style="font-size: 20px"></i><span>Agregar Usuarios</span>
             </a>
           </li>
         </ul>

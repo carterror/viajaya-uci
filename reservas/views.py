@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from reservas.models import Ruta, Viajero
 from reservas.forms import RutaForm, ViajeroForm, BuscarForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def home(request):
     return render(request, 'home.html')
 
