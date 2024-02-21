@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-
+{% load widget_tweaks %}
 {% block extra_head %}
 <style>
 
@@ -10,11 +10,11 @@
 {% block content %}
 
 <div class="pagetitle">
-    <h1>Impresoras</h1>
+    <h1>Agencias</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'home' %}">Inicio</a></li>
-            <li class="breadcrumb-item active">Impresoras</li>
+            <li class="breadcrumb-item active">Agencias</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
@@ -25,40 +25,38 @@
 
             <div class="card-body">
                 <div class="card-title">
-                    Lista de Impresoras
-                    <a class="btn btn-outline-primary float-end " href="{% url 'agregar_impresora' %}">Agregar Nuevo Impresora</a>
+                    Lista de Agencias
+                    <a class="btn btn-outline-primary float-end " href="{% url 'agregar_agencia' %}">Agregar Nueva Agencia</a>
                 </div>
 
                 <!-- Table with stripped rows -->
                 <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+                    
                     <div class="datatable-container overflow-auto">
                         <table id="miTabla" class="table datatable " data-bs-theme="dark">
                             <thead>
                             <tr>
                                 <th> Nombre </th>
-                                <th> Conexion </th>
-                                <th> Descripcion </th>
-                                <th> localizacion </th>
-                                <th> marca </th>
-                                <th> Modelo </th>
+                                <th> Provincia </th>
+                                <th> Telefono </th>
+                                <th> Direccion </th>
                                 <th data-sortable="false" data-searchable="false">Acciones</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for impresora in impresoras %}
+                            {% for agencia in agencias %}
 
 
                             <tr data-index="0">
-                                <td>{{ impresora.nombre }}</td>
-                                <td>{{ impresora.tipo_conexion }}</td>
-                                <td>{{ impresora.descripcion }}</td>
-                                <td>{{ impresora.localizacion }}</td>
-                                <td>{{ impresora.marca }}</td>
-                                <td>{{ impresora.modelo_fabricacion }}</td>
+                                <td>{{ agencia.nombre }}</td>
+                                <td>{{ agencia.provincia }}</td>
+                                <td>{{ agencia.telefono }}</td>
+                                <td>{{ agencia.direccion }}</td>
+                                
 
                                 <td class="w-25">
-                                    <a class="btn btn-primary" href="{% url 'editar_impresora' impresora.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Editar" data-bs-theme="dark"><i class="bi bi-pen"></i></a>
-                                    <a class="btn btn-danger" href="{% url 'eliminar_impresora' impresora.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Eliminar" data-bs-theme="dark"><i class="bi bi-trash"></i></a>
+                                    <a class="btn btn-primary" href="{% url 'editar_agencia' agencia.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Editar" data-bs-theme="dark"><i class="bi bi-pen"></i></a>
+                                    <a class="btn btn-danger" href="{% url 'eliminar_agencia' agencia.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Eliminar" data-bs-theme="dark"><i class="bi bi-trash"></i></a>
                                 </td>
                             </tr>
                             {% endfor %}

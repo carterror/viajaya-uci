@@ -3,7 +3,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from reservas.models import Ruta, Viajero
+from reservas.models import Ruta, Viajero, Agencia, Pasaje
 
 def validate_only_numbers(value):
     if not value.isdigit():
@@ -24,7 +24,46 @@ class ViajeroForm(forms.ModelForm):
         model = Viajero
         fields = ['nombre', 'ci']
         
+
+class AgenciaForm(forms.ModelForm):
+    
+    provincias = (
+        ('La habana', 'La Habana'),
+        ('Granma', 'Granma'),
+        ('Las Tunas', 'Las Tunas'),
+        ('Villa Clara', 'Villa Clara'),
+        ('Holguin', 'Holgin'),
+        ('Camaguey', 'Camaguey'),
+        ('Santiago de Cuba', 'Santiago de Cuba'),
         
+    )
+    
+    nombre = forms.CharField(required=True, max_length=100, widget=forms.TextInput(attrs={'class': 'form-control my-2'}))
+    provincia = forms.ChoiceField(choices=provincias, widget=forms.Select(attrs={'class': 'form-control my-2'}))
+    telefono = forms.CharField(required=True, max_length=12, widget=forms.TextInput(attrs={'class': 'form-control my-2'}))
+    direccion = forms.CharField(required=True, max_length=250, widget=forms.TextInput(attrs={'class': 'form-control my-2'}))
+    
+    class Meta:
+        model = Agencia
+        fields = ['nombre', 'provincia', 'telefono', 'direccion']
+
+class PasajeForm(forms.ModelForm):
+    origen = forms.ModelChoiceField(required=True,queryset=Ruta.objects.all(), widget=forms.Select(attrs={'data-placeholder': 'Selecciona el origen','class': 'form-control my-2'}))
+    destino = forms.ModelChoiceField(required=True, queryset=Ruta.objects.all(), widget=forms.Select(attrs={'data-placeholder': 'Selecciona el destino','class': 'form-control my-2'}))
+    precio = forms.DecimalField(required=True, max_digits=10, decimal_places=2)
+    capacidad = forms.IntegerField(required=True)
+    fecha = forms.DateTimeField(required=True)
+    transporte = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'form-control my-2'}), choices=(
+        ("AV", "Avión"),
+        ("TR", "Tren"),
+        ("BU", "Omnibús")
+    ))
+    
+    class Meta:
+        model = Pasaje
+        fields = ['origen', 'destino', 'precio', 'capacidad', 'fecha', 'transporte']
+
+
 class BuscarForm(forms.Form):
     query = forms.CharField(label='Buscar', max_length=100)
 

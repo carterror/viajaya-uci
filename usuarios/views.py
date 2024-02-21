@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_protect
 
 # Create your views here.
 # usuarios/views.py
@@ -6,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from usuarios.forms import RegistroUsuarioForm
 
-
+@csrf_protect
 def registro(request):
     if request.method == 'POST':
         form = RegistroUsuarioForm(request.POST)
