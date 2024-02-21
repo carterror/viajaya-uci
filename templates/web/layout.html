@@ -1,6 +1,7 @@
 {% load static %}
 <!doctype html>
 <html lang="en" data-bs-theme="dark">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,132 +20,112 @@
     <link href="{% static '/assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
     <style>
         html {
-            
+
             background-clip: content-box;
         }
     </style>
 </head>
+
 <body>
-<header data-bs-theme="dark" >
-    <nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary" aria-label="Thirteenth navbar example">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample11"
-                    aria-controls="navbarsExample11" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <header data-bs-theme="dark">
+        <nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary" aria-label="Thirteenth navbar example">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarsExample11" aria-controls="navbarsExample11" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <div class="collapse navbar-collapse d-lg-flex justify-content-lg-between" id="navbarsExample11">
-                <img src="{% static 'img/icon.png' %}" alt="logo" width="50px" srcset="">
-                <a class="navbar-brand col-lg-3 me-0" href="{% url 'home' %}">ViajaYa</a>
-                <ul class="navbar-nav col-lg-5 justify-content-lg-center">
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="{% url 'home' %}">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/locales' %}active{% endif %}" href="href="{% url 'locales' %}"">Agencias </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/locales' %}active{% endif %}" href="#">Pasajeros </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                    </li>
-
-                </ul>
-                <div class="d-lg-flex col-lg-3 justify-content-lg-end">
-                    <ul class="navbar-nav col-lg-6 justify-content-lg-center">
-                        <li class="nav-item me-2">
-                            <a class="btn btn-primary" href="{% url 'buscar' %}">Reservar</a>
+                <div class="collapse navbar-collapse d-lg-flex justify-content-lg-between" id="navbarsExample11">
+                    <img src="{% static 'img/icon.png' %}" alt="logo" width="50px" srcset="">
+                    <a class="navbar-brand col-lg-3 me-0" href="{% url 'home' %}">ViajaYa</a>
+                    <ul class="navbar-nav col-lg-5 justify-content-lg-center">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page"
+                                href="{% url 'home' %}">Inicio</a>
                         </li>
-                        <li class="nav-item border border-right">
-                        </li>
-                        <li class="nav-item dropdown">
-                            {% if user.is_authenticated %}
-                            
-                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
-                               aria-expanded="false">{{user}}</a>
-                               <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#">Perfil</a></li>
-<!--                                <li><a class="dropdown-item" href="#">Another action</a></li>-->
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                {% if user.is_staff %}
-                                <li><a class="dropdown-item" href="{% url 'home' %}">Administrar</a></li>
-                                {% endif %}
-                                <form action="{% url 'logout' %}" method="post">
-                                    {% csrf_token %}
-                                <li><button class="dropdown-item" type="submit">Salir</button></li>
-                                </form>
-                            </ul>
-
-                            {% else %}
-                            
-                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
-                               aria-expanded="false">Autenticarse</a>
-                               <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="{% url 'login' %}">Autenticarse</a></li>
-                                <li><a class="dropdown-item" href="{% url 'register' %}">Registrarse</a></li>
-<!--                                <li><a class="dropdown-item" href="#">Another action</a></li>-->
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <form action="{% url 'logout' %}" method="post">
-                                    {% csrf_token %}
-                                    <div class='row row-cols-1 gap-1 grow-1 p-2 justify-content-center'>
-                                    <div class='col'>
-                                        
-                                        <input type='text' placeholder="Correo" class='form-control' />
-                                        
-                                    </div>
-                                    <div class='col'>
-                                    <input type='password' placeholder="Contraseña" class='form-control' />
-                                    </div>
-                                    <div class='col'>
-                                        <button class="btn btn-primary">Entrar</button>
-                                        </div>
-                                    </div>
-                                <li><button class="dropdown-item btn btn-primary" type="submit">Entrar</button></li>
-                                </form>
-                            </ul>
-
-                            {% endif %}
-                            
-
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/locales' %}active{% endif %}"
+                                href="{% url 'home' %}">Agencias </a>
                         </li>
 
                     </ul>
+                    <div class="d-lg-flex col-lg-3 justify-content-lg-end ">
+                        <ul class="navbar-nav col-lg-6 justify-content-lg-center ">
+                            {% if user.is_authenticated %}
+                            <li class="nav-item me-2">
+                                <a class="btn btn-primary" href="{% url 'buscar' %}">Reservar</a>
+                            </li>
+                            
+                            <li class="nav-item border border-right">
+                            </li>
+                            {% else %}
+                            <li class="nav-item me-2">
+                                <a class="btn btn-primary" href="{% url 'login' %}">Autenticase</a>
+                            </li>
+                            <li class="nav-item me-5">
+                                <a class="btn btn-outline-primary " href="{% url 'register' %}">Registrar</a>
+                            </li>
+                            {% endif %}
+                            <li class="nav-item dropdown">
+                                {% if user.is_authenticated %}
+
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
+                                    aria-expanded="false">{{user}}</a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#">Perfil</a></li>
+                                    <li><a class="dropdown-item" href="#">Pasajeros</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    {% if user.is_staff %}
+                                    <li><a class="dropdown-item" href="{% url 'dashboard' %}">Administrar</a></li>
+                                    {% endif %}
+                                    <form action="{% url 'logout' %}" method="post">
+                                        {% csrf_token %}
+                                        <li><button class="dropdown-item" type="submit">Salir</button></li>
+                                    </form>
+                                </ul>
+
+                                {% endif %}
 
 
+                            </li>
+
+                        </ul>
+
+
+                    </div>
                 </div>
             </div>
+        </nav>
+    </header>
+    <main id="main" class="main " style="min-height: 90vh; " data-bs-theme="dark">
+
+        <section class="py-5 text-center"
+            style="background-image: url({% static '/img/banner.png' %}); background-size: cover; height: 400px">
+
+        </section>
+        <div class="container">
+
+            {% include 'notification.html' %}
         </div>
-    </nav>
-</header>
-<main id="main" class="main " style="min-height: 90vh; " data-bs-theme="dark">
+        {% block content %}{% endblock %}
+    </main>
 
-      <section class="py-5 text-center" style="background-image: url({% static '/img/banner.png' %}); background-size: cover; height: 400px">
+    <footer class="text-body-secondary py-2">
+        <div class="container">
+            <p class="float-end mb-1">
+                <a href="#">Back to top</a>
+            </p>
+            <p class="mb-1"> &copy; Copyright <strong><span>3rroR</span></strong>. All Rights Reserved</p>
 
-  </section>
-    <div class="container">
+        </div>
+    </footer>
+    <script src="{% static '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Template Main JS File -->
 
-    {% include 'notification.html' %}
-    </div>
-    {% block content %}{% endblock %}
-</main>
-
-<footer class="text-body-secondary py-2">
-    <div class="container">
-        <p class="float-end mb-1">
-            <a href="#">Back to top</a>
-        </p>
-        <p class="mb-1"> &copy; Copyright <strong><span>3rroR</span></strong>. All Rights Reserved</p>
-
-    </div>
-</footer>
-<script src="{% static '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<!-- Template Main JS File -->
-
-{% block extra_js %}{% endblock %}
+    {% block extra_js %}{% endblock %}
 </body>
+
 </html>

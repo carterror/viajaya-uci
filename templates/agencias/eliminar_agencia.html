@@ -7,11 +7,11 @@
 {% block content %}
 
 <div class="pagetitle">
-    <h1>Dashboard</h1>
+    <h1>Eliminar Agencia</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'lista_locales' %}">Locales</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'lista_agencias' %}">Agencias</a></li>
             <li class="breadcrumb-item active">Eliminar</li>
         </ol>
     </nav>
@@ -19,17 +19,16 @@
 
 <section class="section dashboard">
     <div class="row">
-        <!-- templates/gestion_impresoras/agregar_impresora.html -->
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Eliminar Local</h5>
-                <h2 class="mb-5">¿Estás seguro de que quieres eliminar el local "{{ local.nombre }}"?</h2>
+                <h5 class="card-title">Eliminar Agencia</h5>
+                <h2 class="mb-5">¿Estás seguro de que quieres eliminar la agencia "{{ agencia.nombre }}"?</h2>
 
                 <form method="post">
                     {% csrf_token %}
                     <button class="btn btn-danger" type="submit">Eliminar</button>
 
-                     <a class="btn btn-primary" href="{% url 'lista_locales' %}">Cancelar</a>
+                     <a class="btn btn-primary" href="{% url 'lista_agencias' %}">Cancelar</a>
                 </form>
 
 
