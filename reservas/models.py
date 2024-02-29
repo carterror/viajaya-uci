@@ -1,5 +1,5 @@
 from django.db import models
-
+from usuarios.models import Usuario
 
 # Create your models here.
 class Ruta(models.Model):
@@ -13,6 +13,7 @@ class Ruta(models.Model):
 class Viajero(models.Model):
     nombre = models.CharField(max_length=100, null=False)
     ci = models.CharField(max_length=11, null=False)
+    user = models.ForeignKey(Usuario, null=False, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
@@ -52,4 +53,5 @@ class Pasaje(models.Model):
 class Viaje(models.Model):
     pasaje = models.ForeignKey(Pasaje, null=False, on_delete=models.CASCADE)
     viajero = models.ForeignKey(Viajero, null=False, on_delete=models.CASCADE)
+    user = models.ForeignKey(Usuario, null=False, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
