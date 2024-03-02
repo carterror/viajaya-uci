@@ -4,211 +4,182 @@ from reservas.forms import RutaForm, ViajeroForm, BuscarForm, AgenciaForm, Pasaj
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 @login_required
 def home(request):
     return render(request, 'home.html')
 
+class RutaListView(LoginRequiredMixin, ListView):
+    model = Ruta
+    template_name = 'ruta/lista_ruta.html'
+    context_object_name = 'rutas'
 
-class RutaView():
-# Create your views here.
-    @login_required
-    def lista_rutas(request):
-        rutas = Ruta.objects.all()
-        return render(request, 'ruta/lista_ruta.html', {'rutas': rutas})
+class RutaCreateView(LoginRequiredMixin, CreateView):
+    model = Ruta
+    form_class = RutaForm
+    template_name = 'ruta/agregar_ruta.html'
+    success_url = reverse_lazy('lista_rutas')
 
-    @csrf_protect
-    @login_required
-    def agregar_ruta(request):
-        if request.method == "POST":
-            form = RutaForm(request.POST)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Ruta creado con éxito.')
-                return redirect('lista_rutas')
-        else:
-            form = RutaForm()
-        return render(request, 'ruta/agregar_ruta.html', {'form': form})
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'Ruta creado con éxito.')
+        return response
 
+class RutaUpdateView(LoginRequiredMixin, UpdateView):
+    model = Ruta
+    form_class = RutaForm
+    template_name = 'ruta/editar_ruta.html'
+    success_url = reverse_lazy('lista_rutas')
 
-    @csrf_protect
-    @login_required
-    def editar_ruta(request, pk):
-        ruta = get_object_or_404(Ruta, pk=pk)
-        if request.method == "POST":
-            form = RutaForm(request.POST,instance=ruta)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Ruta editado con éxito.')
-                return redirect('lista_rutas')
-        else:
-            form = RutaForm(instance=ruta)
-        return render(request, 'ruta/editar_ruta.html', {'form': form, 'ruta': ruta})
+    def get_object(self):
+        return get_object_or_404(Ruta, pk=self.kwargs.get('pk'))
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'Ruta editado con éxito.')
+        return response
 
-    @login_required
-    def eliminar_ruta(request, pk):
-        ruta = get_object_or_404(Ruta, pk=pk)
+class RutaDeleteView(LoginRequiredMixin, DeleteView):
+    model = Ruta
+    template_name = 'ruta/eliminar_ruta.html'
+    success_url = reverse_lazy('lista_rutas')
 
-        if request.method == "POST":
-            ruta.delete()
-            messages.success(request, 'Ruta eliminada con éxito.')
-            return redirect('lista_rutas')
+    def get_object(self):
+        return get_object_or_404(Ruta, pk=self.kwargs.get('pk'))
 
-        return render(request, 'ruta/eliminar_ruta.html', {'ruta': ruta})
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Ruta eliminada con éxito.')
+        return super().delete(request, *args, **kwargs)
 
 
-class ViajeroView():
+class ViajeroListView(LoginRequiredMixin, ListView):
+    model = Viajero
+    template_name = "viajeros/lista_viajeros.html"
+    context_object_name = "viajeros"
 
-    @login_required
-    def lista_viajeros(request):
-        viajeros = Viajero.objects.all()
-        return render(request, 'viajeros/lista_viajeros.html', {'viajeros': viajeros})
-
-
-    @csrf_protect
-    @login_required
-    def agregar_viajero(request):
-        if request.method == "POST":
-            form = ViajeroForm(request.POST)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Viajero creado con exito.')
-                return redirect('lista_viajeros')
-        else:
-            form = ViajeroForm()
-        return render(request, 'viajeros/agregar_viajeros.html', {'form': form})
-
-
-    @csrf_protect
-    @login_required
-    def editar_viajero(request, pk):
-        viajero = get_object_or_404(Viajero, pk=pk)
-        if request.method == "POST":
-            form = ViajeroForm(request.POST,instance=viajero)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Viajero editado con éxito.')
-                return redirect('lista_viajeros')
-        else:
-            form = ViajeroForm(instance=viajero)
-        return render(request, 'viajeros/editar_viajeros.html', {'form': form, 'ruta': viajero})
-
-
-    @login_required
-    def eliminar_viajero(request, pk):
-        viajero = get_object_or_404(Viajero, pk=pk)
-
-        if request.method == "POST":
-            viajero.delete()
-            messages.success(request, 'Viajero eliminado con éxito.')
-            return redirect('lista_viajeros')
-
-        return render(request, 'viajeros/eliminar_viajeros.html', {'viajero': viajero})
-
-    @login_required
-    def buscar_viajero(request):
-        if 'query' in request.GET:
-            form = BuscarForm(request.GET)
-            if form.is_valid():
-                query = form.cleaned_data['query']
-                viajeros = Viajero.objects.filter(nombre__icontains=query)
-        else:
-            form = BuscarForm()
-            viajeros = []
-
-        return render(request, 'viajeros/lista_viajeros.html', {'viajeros': viajeros})
-
-
-class AgenciaView():
-    @login_required
-    def lista_agencias(request):
-        agencias = Agencia.objects.all()
-        return render(request, 'agencias/lista_agencias.html', {'agencias': agencias})
-
-
-    @csrf_protect
-    @login_required
-    def agregar_agencia(request):
-        if request.method == "POST":
-            form = AgenciaForm(request.POST)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Agencia creado con exito.')
-                return redirect('lista_agencias')
-        else:
-            form = AgenciaForm()
-        return render(request, 'agencias/agregar_agencia.html', {'form': form})
-
-    @csrf_protect
-    @login_required
-    def editar_agencia(request, pk):
-        agencia = get_object_or_404(Agencia, pk=pk)
-        if request.method == "POST":
-            form = AgenciaForm(request.POST,instance=agencia)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Agencia editada con éxito.')
-                return redirect('lista_agencias')
-        else:
-            form = AgenciaForm(instance=agencia)
-        return render(request, 'agencias/editar_agencia.html', {'form': form, 'ruta': agencia})
-
-    @login_required
-    def eliminar_agencia(request, pk):
-        agencia = get_object_or_404(Agencia, pk=pk)
-
-        if request.method == "POST":
-            agencia.delete()
-            messages.success(request, 'Agencia eliminada con éxito.')
-            return redirect('lista_agencias')
-
-        return render(request, 'agencias/eliminar_agencia.html', {'agencia': agencia})
+class ViajeroCreateView(LoginRequiredMixin, CreateView):
+    model = Viajero
+    form_class = ViajeroForm
+    template_name = 'viajeros/agregar_viajero.html'
+    success_url = reverse_lazy('lista_viajeros')
     
-class PasajeView():
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        response = super().form_valid(form)
+        messages.success(self.request, 'Viajero creado con éxito.')
+        return response
+
+class ViajeroUpdateView(LoginRequiredMixin, UpdateView):
+    model = Viajero
+    form_class = ViajeroForm
+    template_name = 'viajeros/editar_viajero.html'
+    success_url = reverse_lazy('lista_viajeros')
+
+    def get_object(self):
+        return get_object_or_404(Viajero, pk=self.kwargs.get('pk'))
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'Viajero editado con éxito.')
+        return response
     
-    @login_required
-    def lista_pasajes(request):
-        pasajes = Pasaje.objects.all()
-        return render(request, 'pasajes/lista_pasajes.html', {'pasajes': pasajes})
+class ViajeroDeleteView(LoginRequiredMixin, DeleteView):
+    model = Viajero
+    template_name = 'viajeros/eliminar_viajero.html'
+    success_url = reverse_lazy('lista_viajeros')
+
+    def get_object(self):
+        return get_object_or_404(Viajero, pk=self.kwargs.get('pk'))
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Viajero eliminado con éxito.')
+        return super().delete(request, *args, **kwargs)
 
 
-    @csrf_protect
-    @login_required
-    def agregar_pasaje(request):
-        if request.method == "POST":
-            form = PasajeForm(request.POST)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Pasaje creado con exito.')
-                return redirect('lista_pasajes')
-        else:
-            form = PasajeForm()
-        return render(request, 'pasajes/agregar_pasaje.html', {'form': form})
-
-    @csrf_protect
-    @login_required
-    def editar_pasaje(request, pk):
-        pasaje = get_object_or_404(Pasaje, pk=pk)
-        if request.method == "POST":
-            form = PasajeForm(request.POST,instance=pasaje)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Pasajes editado con éxito.')
-                return redirect('lista_pasajes')
-        else:
-            form = PasajeForm(instance=pasaje)
-        return render(request, 'pasajes/editar_pasaje.html', {'form': form, 'ruta': pasaje})
-
-    @login_required
-    def eliminar_pasaje(request, pk):
-        pasaje = get_object_or_404(Pasaje, pk=pk)
-
-        if request.method == "POST":
-            pasaje.delete()
-            messages.success(request, 'Pasaje eliminado con éxito.')
-            return redirect('lista_pasajes')
-
-        return render(request, 'pasajes/eliminar_pasaje.html', {'pasaje': pasaje})
+class AgenciaListView(LoginRequiredMixin, ListView):
+    model = Agencia
+    template_name = "agencias/lista_agencias.html"
+    context_object_name = "agencias"
     
+class AgenciaCreateView(LoginRequiredMixin, CreateView):
+    model = Agencia
+    form_class = AgenciaForm
+    template_name = "agencias/agregar_agencia.html"
+    success_url = reverse_lazy("lista_agencias")
+
+    def form_valid(self, form):
+        print('Validando Form')
+        response = super().form_valid(form)
+        messages.success(self.request, 'Agencia creada con éxito.')
+        return response
+    
+class AgenciaUpdateView(LoginRequiredMixin, UpdateView):
+    model = Agencia
+    form_class = AgenciaForm
+    template_name = 'agencias/editar_agencia.html'
+    success_url = reverse_lazy('lista_agencias')
+
+    def get_object(self):
+        return get_object_or_404(Agencia, pk=self.kwargs.get('pk'))
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'Agencia editada con éxito.')
+        return response
+
+class AgenciaDeleteView(LoginRequiredMixin, DeleteView):
+    model = Agencia
+    template_name = 'agencias/eliminar_agencia.html'
+    success_url = reverse_lazy('lista_agencias')
+
+    def get_object(self):
+        return get_object_or_404(Agencia, pk=self.kwargs.get('pk'))
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Agencia eliminada con éxito.')
+        return super().delete(request, *args, **kwargs)
+
+class PasajeListView(LoginRequiredMixin, ListView):
+    model = Pasaje
+    template_name = "pasajes/lista_pasajes.html"
+    context_object_name = "pasajes"
+    
+class PasajeCreateView(LoginRequiredMixin, CreateView):
+    model = Pasaje
+    form_class = PasajeForm
+    template_name = "pasajes/agregar_pasaje.html"
+    success_url = reverse_lazy("lista_pasajes")
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Pasaje creado con éxito.")
+        return response
+    
+class PasajeUpdateView(LoginRequiredMixin, UpdateView):
+    model = Pasaje
+    form_class = PasajeForm
+    template_name = "pasajes/editar_pasaje.html"
+    success_url = reverse_lazy("lista_pasajes")
+    
+    def get_object(self):
+        return get_object_or_404(Pasaje, pk=self.kwargs.get('pk'))
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'Pasaje editado con éxito.')
+        return response
+    
+class PasajeDeleteView(LoginRequiredMixin, DeleteView):
+    model = Pasaje
+    template_name = 'pasajes/eliminar_pasaje.html'
+    success_url = reverse_lazy('lista_pasajes')
+
+    def get_object(self):
+        return get_object_or_404(Pasaje, pk=self.kwargs.get('pk'))
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Pasaje eliminado con éxito.')
+        return super().delete(request, *args, **kwargs)
