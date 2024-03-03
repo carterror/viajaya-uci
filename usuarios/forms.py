@@ -6,8 +6,7 @@ from usuarios.models import Usuario
 
 
 class RegistroUsuarioForm(UserCreationForm):
-    email = forms.EmailField(required=True)
 
     class Meta:
         model = Usuario
-        fields = ("first_name", "email", "username", "email", "password1", "password2", "ci")
+        fields = ("first_name", "email", "username", "password1", "password2")
