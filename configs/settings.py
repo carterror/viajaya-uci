@@ -26,6 +26,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = ['https://*.b4a.run','https://*.127.0.0.1']
+
 # Application definition
 
 INSTALLED_APPS = [

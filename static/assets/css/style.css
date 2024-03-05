@@ -38,6 +38,12 @@ h6 {
   font-family: "Nunito", sans-serif;
 }
 
+.img-bg-search {
+  background-image: url(../img/banner.png);
+  background-size: 100% auto;
+  background-position: center top;
+  background-repeat: no-repeat;
+ }
 /*--------------------------------------------------------------
 # Main
 --------------------------------------------------------------*/
@@ -1232,3 +1238,4 @@ h6 {
   font-size: 13px;
   color: #ccc;
 }
+
