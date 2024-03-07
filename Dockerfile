@@ -4,11 +4,11 @@ RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y python3-pip sqlite3 && \
     rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --upgrade pip && \
-    pip3 install -r requirement.txt
-
 COPY . /app/
 WORKDIR /app/
+
+RUN pip3 install --upgrade pip && \
+    pip3 install -r requirement.txt
 
 RUN python3 manage.py migrate --run-syncdb
 RUN python3 manage.py collectstatic --noinput
