@@ -1,16 +1,18 @@
-FROM python:3.11.8-slim-bullseye
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install python3-pip -y
-RUN apt-get install sqlite3  -y
-RUN pip3 install -U pip
-RUN python3 -m pip install --upgrade pip
+FROM python:3.11.8-slim
+
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y python3-pip sqlite3 && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install --upgrade pip && \
+    pip3 install -r requirements.txt
 
 COPY . /app/
 WORKDIR /app/
-RUN pip3 install -U -r requirement.txt
+
+RUN python3 manage.py migrate --run-syncdb
+RUN python3 manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-RUN python3 manage.py migrate --run-syncdb
-RUN python3 manage.py collectstatic
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", 'configs.wsgi']
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "configs.wsgi:application"]
