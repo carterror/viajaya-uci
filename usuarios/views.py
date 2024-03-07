@@ -17,7 +17,8 @@ def registro(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('index')  # Redirige a la página de inicio después del registro
+            return redirect('/')  # Redirige a la página de inicio después del registro
     else:
         form = RegistroUsuarioForm()
+        
     return render(request, 'auth/register.html', {'form': form})
