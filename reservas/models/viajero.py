@@ -6,3 +6,9 @@ class Viajero(models.Model):
     ci = models.CharField(max_length=11, null=False)
     user = models.ForeignKey(Usuario, null=False, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __repr__(self):
+        return self.nombre
+    
+    def __str__(self):
+        return self.nombre

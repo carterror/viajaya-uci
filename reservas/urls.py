@@ -42,4 +42,14 @@ urlpatterns = [
     path('pasajes/agregar/', PasajeCreateView.as_view(), name='agregar_pasaje'),
     path('pasajes/<int:pk>/editar/', PasajeUpdateView.as_view(), name='editar_pasaje'),
     path('pasajes/<int:pk>/eliminar/', PasajeDeleteView.as_view(), name='eliminar_pasaje'),
+    
+    path('viajes/', ViajeListView.as_view(), name='lista_viajes'),
+    path('viajes/agregar/', ViajeCreateView.as_view(), name='agregar_viaje'),
+    path('viajes/<int:pk>/editar/', ViajeUpdateView.as_view(), name='editar_viaje'),
+    path('viajes/<int:pk>/eliminar/', ViajeDeleteView.as_view(), name='eliminar_viaje'),
+    
+    path('noticias/', NoticiaListView.as_view(), name='lista_noticias'),
+    path('noticias/agregar/', NoticiaCreateView.as_view(), name='agregar_noticia'),
+    path('noticias/<int:pk>/editar/', NoticiaUpdateView.as_view(), name='editar_noticia'),
+    path('noticias/<int:pk>/eliminar/', NoticiaDeleteView.as_view(), name='eliminar_noticia'),
 ]

@@ -13,6 +13,12 @@ class Pasaje(models.Model):
         "TR": "Tren",
         "BU": "Omnibús",
     })
+    
+    def __repr__(self):
+        return f'{self.origen} - {self.destino}'
+    
+    def __str__(self):
+        return f'{self.origen} - {self.destino}'
 
     def asientos(self):
         ocupados = Viaje.objects.filter(pasaje=self).count()

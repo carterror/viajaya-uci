@@ -5,7 +5,7 @@
 
       <li class="nav-item ">
         <a class="nav-link bg-dark-subtle {% if request.path == '/dashboard/' %} active {% endif %}" href="{% url 'home' %}">
-          <i class="bi bi-grid"></i>
+          <i class="bi bi-house"></i>
           <span>Inicio</span>
         </a>
       </li><!-- End Dashboard Nav -->
@@ -152,7 +152,7 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed bg-dark-subtle" data-bs-target="#components-nav-pasajes" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-people"></i><span>Pasajes</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-ticket"></i><span>Pasajes</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="components-nav-pasajes" class="nav-content collapse {% if request.path == '/dashboard/pasajes/' or request.path == '/usuarios/agregar/'  %} show {% endif %}" >
           <li>
@@ -163,6 +163,42 @@
           <li>
             <a href="{% url 'agregar_pasaje' %}" class="{% if request.path == '/dashboard/pasajes/agregar/' %} active text-primary {% endif %}">
               <i class="bi bi-plus" style="font-size: 20px"></i><span>Agregar Pasaje</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed bg-dark-subtle" data-bs-target="#components-nav-viajes" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-bag-check"></i><span>Viajes</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav-viajes" class="nav-content collapse {% if request.path == '/dashboard/viajes/' or request.path == '/viajes/agregar/'  %} show {% endif %}" >
+          <li>
+            <a href="{% url 'lista_viajes' %}" class="{% if request.path == '/dashboard/viajes/' %} active text-primary {% endif %}">
+              <i class="bi bi-list" style="font-size: 20px" ></i><span>Listar Viajes</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'agregar_viaje' %}" class="{% if request.path == '/dashboard/viajes/agregar/' %} active text-primary {% endif %}">
+              <i class="bi bi-plus" style="font-size: 20px"></i><span>Agregar Viaje</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed bg-dark-subtle" data-bs-target="#components-nav-noticias" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Noticias</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav-noticias" class="nav-content collapse {% if request.path == '/dashboard/noticias/' or request.path == '/noticias/agregar/'  %} show {% endif %}" >
+          <li>
+            <a href="{% url 'lista_noticias' %}" class="{% if request.path == '/dashboard/noticias/' %} active text-primary {% endif %}">
+              <i class="bi bi-list" style="font-size: 20px" ></i><span>Listar Noticias</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'agregar_noticia' %}" class="{% if request.path == '/dashboard/noticias/agregar/' %} active text-primary {% endif %}">
+              <i class="bi bi-plus" style="font-size: 20px"></i><span>Agregar Noticia</span>
             </a>
           </li>
         </ul>

@@ -28,6 +28,11 @@
             <div class="invalid-feedback">Por favor entre su correo!</div>
         </div>
 
+        <div class="col-12">
+            <label for="yourName" class="form-label">Carnet de identidad</label>
+            <input type="text" name="{{ form.ci.name }}" class="form-control" id="yourCi" pattern="^\d{11}$" required>
+            <div class="invalid-feedback">Por favor entre su carnet de identidad!</div>
+        </div>
 
         <div class="col-12">
             <label for="{{ form.username.id_for_label }}" class="form-label">Usuario</label>

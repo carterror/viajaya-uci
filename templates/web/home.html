@@ -7,36 +7,92 @@
 {% block content %}
 
 <div class="album py-5 bg-body-tertiary">
-  <section class="py-5 text-center mt-4"
+  <section class="py-5 text-center"
             style="background-image: url({% static '/img/banner.png' %}); background-size: cover; height: 400px">
 
         </section>
-  <div class="container">
+  <div class="container mt-4">
 
-    <div class="row-cols-1">
-      <div class="col">
-        <div class="card">
-          <div class="card-header">
-            Curiosidades sobre medios de transporte
-          </div>
-          <div class="card-body">
-            {% for curiosity in transport_curiosities %}
-            <blockquote class="blockquote mb-0" id="curiosity-{{ forloop.counter }}">
-               <p>{{ curiosity.curiosity }}</p>
-               <footer class="blockquote-footer">{{ curiosity.source }}</footer>
-            </blockquote>
-            {% empty %}
-            <p>No hay curiosidades disponibles en este momento.</p>
-            {% endfor %}
-           </div>
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
+  </div>
+  <div class="card">
+
+    <h1 class="my-4 text-center">Pasajes Disponibles</h1>
+  
+    <div class="row">
+        {% for pasaje in pasajes %}
+        <div class="col-md-4">
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h5 class="card-title">{{ pasaje.origen }} - {{ pasaje.destino }}</h5>
+                    <p class="card-text">
+                        <strong>Precio:</strong> $ {{ pasaje.precio }}<br>
+                        <strong>Transporte:</strong> {{ pasaje.tipo }}<br>
+                        <strong>Disponibilidad:</strong> {{ pasaje.asientos }}<br>
+                        <strong>Fecha:</strong> {{ pasaje.fecha }}
+                        
+                    </p>
+                    <div class="card-footer d-flex justify-content-center mt-auto">
+                      <a href="#" class="btn btn-outline-primary">Ir a reservar...</a>
+                    </div>
+                </div>
+                
+            </div>
         </div>
+        {% empty %}
+          <p>No hay pasajes disponibles en este momento.</p>
+        {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+      <a href="{% url 'buscar' %}" class="btn btn-outline-primary mb-2">Buscar Más Pasajes</a>
+  </div>
+  </div>
+  <!-- <hr class="my-4 hr"> -->
+  <div class="row-cols-1 mt-4">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          Curiosidades
+        </div>
+        <div class="card-body">
+          {% for curiosity in transport_curiosities %}
+          <blockquote class="blockquote mb-0 {% if forloop.first %} {% else %}hidden{% endif %}" id="curiosity-{{ forloop.counter }}">
+             <p>{{ curiosity.curiosity }}</p>
+             <footer class="blockquote-footer">{{ curiosity.source }}</footer>
+          </blockquote>
+          {% empty %}
+          <p>No hay curiosidades disponibles en este momento.</p>
+          {% endfor %}
+      </div>
       </div>
     </div>
-
   </div>
+
 </div>
+
+
 
 {% endblock %}
 
 {% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var blockquotes = document.querySelectorAll('.blockquote');
+      var currentIndex = 0;
+      var intervalTime = 9000;
+
+      function showNext() {
+          blockquotes[currentIndex].classList.add('hidden');
+          currentIndex = (currentIndex + 1) % blockquotes.length;
+          blockquotes[currentIndex].classList.remove('hidden');
+      }
+
+      blockquotes[currentIndex].classList.remove('hidden');
+      setInterval(showNext, intervalTime);
+  });
+</script>
 {% endblock %}

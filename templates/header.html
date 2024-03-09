@@ -159,9 +159,12 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="{% url 'logout'%}">
+              <a class="dropdown-item d-flex align-items-center" href="#">
                 <i class="bi bi-box-arrow-right"></i>
-                <span>Salir</span>
+                <form action="{% url 'logout' %}" method="post">
+                  {% csrf_token %}
+                  <button class="dropdown-item d-flex align-items-center" type="submit">Salir</button>
+                </form>
               </a>
             </li>
 

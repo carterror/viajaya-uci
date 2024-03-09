@@ -2,8 +2,11 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from reservas.models import Ruta, Viaje, Pasaje
+from reservas.models import Ruta, Viaje, Pasaje, Viajero
 from django.db.models.functions import TruncDate
+from django.views.generic import ListView
+from reservas.models import Agencia
+from django.db.models import Count, F
 
 # Create your views here.
 def home(request):
@@ -16,7 +19,14 @@ def home(request):
     ]
     rutas = Ruta.objects.all()
     
-    context = {'rutas': rutas, 'transport_curiosities': transport_curiosities}
+    pasajes_disponibles = Pasaje.objects.annotate(
+        asientos_ocupados=Count('viaje')
+    ).filter(
+        asientos_ocupados__lt=F('capacidad')
+    )[:6]
+
+    
+    context = {'rutas': rutas, 'transport_curiosities': transport_curiosities, 'pasajes': pasajes_disponibles}
     
     return render(request, 'web/home.html', context)
 
@@ -29,4 +39,9 @@ def buscar(request):
     else:
         rutas = Ruta.objects.all()
         return render(request, 'web/buscar.html', {'rutas': rutas})
+    
+class AgenciaListView(ListView):
+    model = Agencia
+    context_object_name = 'agencias'
+    template_name = 'web/agencias.html'
     

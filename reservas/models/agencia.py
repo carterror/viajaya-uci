@@ -7,3 +7,5 @@ class Agencia(models.Model):
     telefono = models.CharField(max_length=12, null=False)
     direccion = models.CharField(max_length=250, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    # imagen = models.ImageField(null=True)
+    # correo = models.EmailField(max_length=100)

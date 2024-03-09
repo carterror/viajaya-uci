@@ -1,16 +1,19 @@
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from reservas.models import Agencia
 from reservas.forms import AgenciaForm
 
 
-class AgenciaListView(LoginRequiredMixin, ListView):
+class AgenciaListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Agencia
     template_name = "agencias/lista_agencias.html"
     context_object_name = "agencias"
+    
+    def test_func(self):
+        return self.request.user.is_staff
     
 class AgenciaCreateView(LoginRequiredMixin, CreateView):
     # permission_required = ('catalog.can_mark_returned', 'catalog.can_edit')
@@ -20,7 +23,6 @@ class AgenciaCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("lista_agencias")
 
     def form_valid(self, form):
-        print('Validando Form')
         response = super().form_valid(form)
         messages.success(self.request, 'Acción realizada con éxito.')
         return response
