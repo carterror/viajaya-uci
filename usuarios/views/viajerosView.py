@@ -1,14 +1,16 @@
 from reservas.models import Viajero
 from reservas.forms import ViajeroForm
-from django.views.generic import ListView, CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 
 
 class ViajeroListView(LoginRequiredMixin, ListView):
     model = Viajero
     context_object_name = 'viajeros'
-    template_name = 'web/viajeros.html'
+    template_name = 'web/viajeros/viajeros.html'
     
     def get_queryset(self):
         user = self.request.user
@@ -22,4 +24,38 @@ class ViajeroListView(LoginRequiredMixin, ListView):
 class ViajeroCreateView(LoginRequiredMixin, CreateView):
     model = Viajero
     form_class = ViajeroForm
+    template_name = 'web/viajeros/agregar_viajero.html'
+    success_url = reverse_lazy('list_viajeros')
     
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        response = super().form_valid(form)
+        messages.success(self.request, 'Acción realizada con éxito.')
+        return response
+    
+class ViajeroUpdateView(LoginRequiredMixin, UpdateView):
+    model = Viajero
+    form_class = ViajeroForm
+    template_name = 'web/viajeros/editar_viajero.html'
+    success_url = reverse_lazy('list_viajeros')
+
+    def get_object(self):
+        return get_object_or_404(Viajero, pk=self.kwargs.get('pk'))
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'Acción realizada con éxito.')
+        return response
+    
+class ViajeroDeleteView(LoginRequiredMixin, DeleteView):
+    model = Viajero
+    template_name = 'web/viajeros/eliminar_viajero.html'
+    context_object_name = 'viajero'
+    success_url = reverse_lazy('list_viajeros')
+
+    def get_object(self):
+        return get_object_or_404(Viajero, pk=self.kwargs.get('pk'))
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Acción realizada con éxito.')
+        return super().delete(request, *args, **kwargs)

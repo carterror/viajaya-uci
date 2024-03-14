@@ -45,3 +45,5 @@ class AgenciaListView(ListView):
     context_object_name = 'agencias'
     template_name = 'web/agencias.html'
     
+
+    

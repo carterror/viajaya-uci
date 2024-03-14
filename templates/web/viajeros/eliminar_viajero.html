@@ -1,0 +1,35 @@
+{% extends 'web/layout.html' %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block content %}
+
+<div class="album py-5 bg-body-tertiary">
+ <div class="container">
+    <div class="row justify-content-center mt-4">
+      <div class="col-lg-8">
+        <div class="card shadow-sm">
+          <div class="card-title fw-bold text-center"><h3>Eliminar Viajero</h3></div>
+          <div class="card-body">
+            <h5 class="mb-5">¿Estás seguro de que quieres eliminar el viajero "{{ viajero.nombre }}"?</h5>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-center">
+                      <button class="btn btn-danger me-2" type="submit">Eliminar</button>
+                      <a class="btn btn-primary" href="{% url 'list_viajeros' %}">Cancelar</a>
+                    </div>
+                </form>
+          </div>
+        </div>
+      </div>
+    </div>
+ </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}

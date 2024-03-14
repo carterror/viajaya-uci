@@ -11,8 +11,9 @@
       <div class="col-lg-8">
         <div class="card shadow-sm">
           <div class="card-title fw-bold text-center"><h3>Viajeros</h3></div>
-          <div class="card-header">
-              <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addViajeroModal">Agregar Viajero</a>
+          <div class="card-header justify-content-end">
+              <!-- <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addViajeroModal">Agregar Viajero</a> -->
+              <a href="{% url 'create_viajero' %}" class="btn btn-primary" ><i class="bi bi-plus"></i> Agregar Viajero</a>
           </div>
           <div class="card-body">
             <ol class="list-group list-group-numbered">
@@ -25,8 +26,10 @@
                     <div class="fw-bold"> CI: {{viajero.ci}}</div>
                  </div>
                  <div class="card-footer d-flex justify-content-between mt-auto">
-                      <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#editViajeroModal" data-bs-id="{{viajero.pk}}"><i class="bi bi-pen"></i></a>
-                      <a class="btn btn-danger" href="#" data-bs-toggle="modal" data-bs-target="#deleteViajeroModal" data-bs-id="{{viajero.pk}}"><i class="bi bi-trash"></i></a>
+                      <!-- <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#editViajeroModal" data-bs-id="{{viajero.pk}}"><i class="bi bi-pen"></i></a>
+                      <a class="btn btn-danger" href="#" data-bs-toggle="modal" data-bs-target="#deleteViajeroModal" data-bs-id="{{viajero.pk}}"><i class="bi bi-trash"></i></a> -->
+                      <a class="btn btn-primary" href="{% url 'edit_viajero' viajero.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Editar" data-bs-theme="dark"><i class="bi bi-pen"></i></a>
+                      <a class="btn btn-danger" href="{% url 'delete_viajero' viajero.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Eliminar" data-bs-theme="dark"><i class="bi bi-trash"></i></a>
                  </div>
                 </li>
               {% endfor %}
