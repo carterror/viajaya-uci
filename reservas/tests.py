@@ -11,7 +11,7 @@ class AuthTest(TestCase):
     def setUp(self):
         # Configura el entorno de prueba
         self.cliente = Client()
-        Usuario.objects.create_user(username='admin', password='admin')
+        Usuario.objects.create_superuser(username='admin', password='admin')
         
     def test_auth_ok(self):
         # Intenta acceder a la vista sin autenticación
@@ -62,17 +62,17 @@ class IntegracionTestCase(TestCase):
     def setUp(self):
         # Configura el entorno de prueba
         self.client = Client()
-        usuario = Usuario.objects.create_user(username='admin', password='admin')
+        self.usuario = Usuario.objects.create_superuser(username='admin', password='admin')
 
         Viajero.objects.create(
             nombre = 'Carlos Brayan',
             ci = '00110367543',
-            user = usuario,
+            user = self.usuario,
         )
         Viajero.objects.create(
             nombre = 'Javier Gonzalez',
             ci = '00110367543',
-            user = usuario,
+            user = self.usuario,
         )
         
     def test_list_ok(self):
@@ -92,3 +92,28 @@ class IntegracionTestCase(TestCase):
         # Verificar que los datos de los usuarios estén en el contenido de la respuesta
         self.assertContains(response, 'Carlos Brayan')
         self.assertContains(response, 'Javier Gonzalez')
+        
+    def test_form_post(self):
+        self.client.login(username='admin', password='admin')
+        
+        # Aquí debes definir los datos que enviarás en la petición POST
+        data = {
+            'ci': '01210598724',
+            'nombre': 'Alejandro Santana',
+        }
+        
+        # Utiliza reverse para obtener la URL basada en el nombre de la vista
+        url = reverse('agregar_viajero')
+        urlr = reverse('lista_viajeros')
+        
+        # Realiza la petición POST con el cliente de prueba
+        response = self.client.post(url, data)
+        
+        # Aquí verificar la respuesta
+        # Verificar que la respuesta redirige a la URL correcta
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, urlr)
+        
+        # Verifica que se creo correctamente en la base de datos
+        objeto_creado = Viajero.objects.filter(ci='01210598724', nombre='Alejandro Santana').exists()
+        self.assertTrue(objeto_creado)

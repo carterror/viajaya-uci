@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from reservas.models import ruta, viajero, viajero, agencia, pasaje
 from django.db.models.functions import TruncDate
 from django.views.generic import ListView, FormView, TemplateView
-from reservas.models import Agencia
+from reservas.models.agencia import Agencia
 from django.db.models import Count, F
 from django.utils import timezone
 from .forms import ViajerosForm
@@ -21,9 +21,9 @@ def home(request):
         {'curiosity': 'El primer sistema de metro subterráneo fue inaugurado en Londres en  1863.', 'source': 'Historia del Metro'},
         {'curiosity': 'El primer ferry de hidrógeno, el "Hyperion", comenzó a operar en  2021.', 'source': 'Innovaciones en Transporte'},
     ]
-    rutas = Ruta.objects.all()
+    rutas = ruta.Ruta.objects.all()
 
-    pasajes_disponibles = Pasaje.objects.annotate(
+    pasajes_disponibles = pasaje.Pasaje.objects.annotate(
         asientos_ocupados=Count('viaje')
     ).filter(
         asientos_ocupados__lt=F('capacidad'),
@@ -57,7 +57,7 @@ class ViajerosCompraView(LoginRequiredMixin, FormView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["asientos"] = Pasaje.objects.get(pk=self.kwargs.get('pk')).asientos()
+        context["asientos"] = pasaje.Pasaje.objects.get(pk=self.kwargs.get('pk')).asientos()
         return context
     
     def get_success_url(self):
@@ -78,8 +78,8 @@ class DetallesCompraView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         viajeros_ids = self.request.session.get('viajeros_ids', [])
-        viajeros = Viajero.objects.filter(id__in=viajeros_ids)
-        pasaje = Pasaje.objects.get(pk=self.kwargs.get('pk'))
+        viajeros = viajero.Viajero.objects.filter(id__in=viajeros_ids)
+        pasaje = pasaje.Pasaje.objects.get(pk=self.kwargs.get('pk'))
         context['total_pagar'] = len(viajeros) * pasaje.precio
         context['pasaje'] = pasaje
         context["viajeros"] = viajeros

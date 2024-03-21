@@ -1,5 +1,5 @@
 from django import forms
-from reservas.models import Viajero
+from reservas.models.viajero import Viajero
 from django.utils.html import format_html
 from django.forms.utils import flatatt
 from django.utils.safestring import mark_safe

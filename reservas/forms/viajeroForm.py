@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from ..models import Viajero
+from ..models.viajero import Viajero
 
 class ViajeroForm(forms.ModelForm):
     nombre = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control my-2', 'id':'nombre'}),
