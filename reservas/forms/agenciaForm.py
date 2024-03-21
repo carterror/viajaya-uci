@@ -1,5 +1,5 @@
 from django import forms
-from ..models import Agencia
+from ..models.agencia import Agencia
 
 class AgenciaForm(forms.ModelForm):
     

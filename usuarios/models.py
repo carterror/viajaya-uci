@@ -5,4 +5,7 @@ from django.contrib.auth.models import AbstractUser
 
 class Usuario(AbstractUser):
     # Aquí puedes añadir campos adicionales si son necesarios
-    ci = models.CharField(null=True, max_length=11)
+    ci = models.CharField(null=False, max_length=11)
+    
+    class Meta:
+        app_label = 'usuarios'

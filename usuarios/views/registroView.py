@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_protect
 
 # Create your views here.
 # usuarios/views.py
-from reservas.models import Viajero
+from reservas.models.viajero import Viajero
 from django.contrib.auth import login, authenticate
 from usuarios.forms import RegistroUsuarioForm
 

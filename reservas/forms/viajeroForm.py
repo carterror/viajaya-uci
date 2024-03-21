@@ -1,5 +1,5 @@
 from django import forms
-from ..models import Viajero
+from ..models.viajero import Viajero
 
 class ViajeroForm(forms.ModelForm):
     nombre = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control my-2'}))

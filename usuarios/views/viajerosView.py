@@ -1,5 +1,5 @@
-from reservas.models import Viajero
-from reservas.forms import ViajeroForm
+from reservas.models.viajero import Viajero
+from reservas.forms.viajeroForm import ViajeroForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView

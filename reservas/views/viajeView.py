@@ -5,8 +5,8 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from reservas.models import Viaje
-from reservas.forms import RutaForm, ViajeroForm, BuscarForm, AgenciaForm, PasajeForm
+from reservas.models.pasaje import Viaje
+from reservas.forms.viajeroForm import ViajeroForm
 
 class ViajeListView(LoginRequiredMixin, ListView):
     model = Viaje

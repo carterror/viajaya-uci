@@ -1,5 +1,5 @@
 from django import forms
-from ..models import Ruta
+from ..models.ruta import Ruta
 
 class RutaForm(forms.ModelForm):
     lugar = forms.CharField(required=True, widget=forms.TextInput(attrs={'class': 'form-control my-2'}))

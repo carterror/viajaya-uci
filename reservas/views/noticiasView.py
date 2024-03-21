@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from web.models import Notice
-from reservas.forms import NoticeForm
+from reservas.forms.noticiaForm import NoticeForm
 
 class NoticiaListView(LoginRequiredMixin, ListView):
     model = Notice

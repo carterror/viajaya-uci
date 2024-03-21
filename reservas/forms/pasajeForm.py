@@ -1,5 +1,6 @@
 from django import forms
-from ..models import Pasaje, Ruta
+from ..models.pasaje import Pasaje
+from ..models.ruta import Ruta
 
 class PasajeForm(forms.ModelForm):
     origen = forms.ModelChoiceField(required=True,queryset=Ruta.objects.all(), widget=forms.Select(attrs={'class': 'form-control my-2'}))

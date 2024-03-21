@@ -3,8 +3,8 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from reservas.models import Ruta, Viajero, Agencia, Pasaje
-from reservas.forms import PasajeForm
+from reservas.models.pasaje import Pasaje
+from reservas.forms.pasajeForm import PasajeForm
 
 
 class PasajeListView(LoginRequiredMixin, ListView):

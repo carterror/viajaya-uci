@@ -2,10 +2,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from reservas.models import Ruta, Viaje, Pasaje, Viajero
+from reservas.models import ruta, viajero, viajero, agencia, pasaje
 from django.db.models.functions import TruncDate
 from django.views.generic import ListView
-from reservas.models import Agencia
 from django.db.models import Count, F
 
 # Create your views here.
@@ -17,9 +16,9 @@ def home(request):
         {'curiosity': 'El primer sistema de metro subterráneo fue inaugurado en Londres en  1863.', 'source': 'Historia del Metro'},
         {'curiosity': 'El primer ferry de hidrógeno, el "Hyperion", comenzó a operar en  2021.', 'source': 'Innovaciones en Transporte'},
     ]
-    rutas = Ruta.objects.all()
+    rutas = ruta.Ruta.objects.all()
     
-    pasajes_disponibles = Pasaje.objects.annotate(
+    pasajes_disponibles = pasaje.Pasaje.objects.annotate(
         asientos_ocupados=Count('viaje')
     ).filter(
         asientos_ocupados__lt=F('capacidad')
@@ -32,16 +31,16 @@ def home(request):
 
 def buscar(request):
     if request.method == 'POST':
-        pasajes = Pasaje.objects.annotate(fecha_truncada=TruncDate('fecha')).filter(origen=request.POST['origen'], destino=request.POST['destino'], fecha_truncada=request.POST['fecha'])
+        pasajes = pasaje.Pasaje.objects.annotate(fecha_truncada=TruncDate('fecha')).filter(origen=request.POST['origen'], destino=request.POST['destino'], fecha_truncada=request.POST['fecha'])
         
         
         return render(request, 'web/pasaje.html', {'pasajes': pasajes})
     else:
-        rutas = Ruta.objects.all()
+        rutas = ruta.Ruta.objects.all()
         return render(request, 'web/buscar.html', {'rutas': rutas})
     
 class AgenciaListView(ListView):
-    model = Agencia
+    model = agencia.Agencia
     context_object_name = 'agencias'
     template_name = 'web/agencias.html'
     

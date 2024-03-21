@@ -4,8 +4,8 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 
-from reservas.models import Ruta
-from ..forms import RutaForm
+from reservas.models.ruta import Ruta
+from ..forms.rutaForm import RutaForm
 
 
 class RutaListView(LoginRequiredMixin, ListView):
