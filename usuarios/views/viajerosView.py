@@ -10,7 +10,7 @@ from django.contrib import messages
 class ViajeroListView(LoginRequiredMixin, ListView):
     model = Viajero
     context_object_name = 'viajeros'
-    template_name = 'web/viajeros/viajeros.html'
+    template_name = 'web/viajeros/lista_viajeros.html'
     
     def get_queryset(self):
         user = self.request.user
@@ -39,9 +39,6 @@ class ViajeroUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'web/viajeros/editar_viajero.html'
     success_url = reverse_lazy('list_viajeros')
 
-    def get_object(self):
-        return get_object_or_404(Viajero, pk=self.kwargs.get('pk'))
-
     def form_valid(self, form):
         response = super().form_valid(form)
         messages.success(self.request, 'Acción realizada con éxito.')
@@ -52,9 +49,6 @@ class ViajeroDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'web/viajeros/eliminar_viajero.html'
     context_object_name = 'viajero'
     success_url = reverse_lazy('list_viajeros')
-
-    def get_object(self):
-        return get_object_or_404(Viajero, pk=self.kwargs.get('pk'))
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, 'Acción realizada con éxito.')

@@ -117,19 +117,15 @@
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>{{user}}</h6>
-              {%if user.is_staff%}
-                <span>Administrador</span>
-              {%else%}
-                <span>Usuario</span>
-              {%endif%}
+              <h6>{{user.first_name}}</h6>
+              <span>{{user}}</span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'perfil' %}">
                 <i class="bi bi-person"></i>
                 <span>Perfil</span>
               </a>
@@ -138,7 +134,7 @@
               <hr class="dropdown-divider">
             </li>
 
-            <li>
+            {% comment %} <li>
               <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
                 <i class="bi bi-gear"></i>
                 <span>Ajustes</span>
@@ -146,26 +142,28 @@
             </li>
             <li>
               <hr class="dropdown-divider">
-            </li>
+            </li> {% endcomment %}
 
-            <li>
+            {% comment %} <li>
               <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
                 <i class="bi bi-question-circle"></i>
                 <span>Necesitas Ayuda?</span>
               </a>
-            </li>
-            <li>
+            </li> {% endcomment %}
+            {% comment %} <li>
               <hr class="dropdown-divider">
-            </li>
+            </li> {% endcomment %}
 
             <li>
+              <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
               <a class="dropdown-item d-flex align-items-center" href="#">
                 <i class="bi bi-box-arrow-right"></i>
-                <form action="{% url 'logout' %}" method="post">
-                  {% csrf_token %}
+                
                   <button class="dropdown-item d-flex align-items-center" type="submit">Salir</button>
-                </form>
+                
               </a>
+              </form>
             </li>
 
           </ul><!-- End Profile Dropdown Items -->

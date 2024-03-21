@@ -1,0 +1,43 @@
+{% extends 'web/layout.html' %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block content %}
+
+<div class="album py-5 bg-body-tertiary d-flex justify-content-center align-items-center min-vh-100">
+    <div class="container">
+        <div class="row justify-content-center mt-4">
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-header fw-bold text-center"><h3>Seleccionar Viajeros</h3></div>
+                    <div class="card-body">
+                        <form action="" method="post" class="row" id="form">
+                            {% csrf_token %}
+                            {{ form.non_field_errors }}
+                            {% for field in form %}
+                                <div class="mb-3">
+                                    {{ field.errors }}
+                                    {{ field.label_tag }} {{ field }}
+                                </div>
+                            {% endfor %}
+                            <div class="row mt-4">
+                                <div class="col-sm-7">
+                                    <button type="submit" class="btn btn-primary float-end">Reservar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+   {% endblock %}
+
+   {% block extra_js %}
+
+   {% endblock %}
+   

@@ -31,4 +31,6 @@ urlpatterns = [
     path('viajeros/agregar', ViajeroCreateView.as_view(), name='create_viajero'),
     path('viajeros/<int:pk>/editar', ViajeroUpdateView.as_view(), name='edit_viajero'),
     path('viajeros/<int:pk>/eliminar', ViajeroDeleteView.as_view(), name='delete_viajero'),
+    
+    path('perfil/', PerfilUpdateView.as_view(), name='perfil'),
 ]

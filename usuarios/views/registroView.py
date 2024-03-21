@@ -22,7 +22,7 @@ def registro(request):
             viajero.ci = form.cleaned_data.get('ci')
             viajero.user = user
             viajero.save()
-            return redirect('/')  # Redirige a la página de inicio después del registro
+            return redirect('/')
     else:
         form = RegistroUsuarioForm()
         

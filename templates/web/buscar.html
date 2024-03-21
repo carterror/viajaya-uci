@@ -8,59 +8,113 @@
 
   <div class="album py-5 bg-body-tertiary">
     <div class="container mt-4">
-
-      <div class="row justify-content-center mt-8">
-        <div class="col-lg-4">
-          <div class="card shadow-sm">
-            <div class="card-header">Buscar Pasaje</div>
-            <div class="card-body">
-              <form action="{% url 'buscar' %}" method="post">
-                {% csrf_token %}
-                <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Origen</label>
-                  <select class="form-select" name="origen" aria-label="Default select example">
-                    <option selected disabled>Seleccionar Origen</option>
-                    {% for ruta in rutas %}
-                    <option value="{{ruta.id}}">{{ruta.lugar}}</option>
-                    {% endfor %}
-                  </select>
+        <div class="row justify-content-center mt-8">
+            <div class="col-lg-4">
+                <div class="card shadow-sm">
+                    <div class="card-header">Buscar Pasaje</div>
+                    <div class="card-body">
+                        <form action="{% url 'buscar' %}" method="post" id="formBuscar">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="rutaOrigen" class="form-label">Origen</label>
+                                <select class="form-select" id="rutaOrigen" name="origen" aria-label="Default select example" required>
+                                    <option selected disabled>Seleccionar Origen</option>
+                                    {% for ruta in rutas %}
+                                    <option value="{{ruta.id}}">{{ruta.lugar}}</option>
+                                    {% endfor %}
+                                </select>
+                                <span id="errorOrigen" style="color: red; display: none;"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label for="rutaDestino" class="form-label">Destino</label>
+                                <select class="form-select" id="rutaDestino" name="destino" aria-label="Default select example" required>
+                                    <option selected>Seleccionar Destino</option>
+                                    {% for ruta in rutas %}
+                                    <option value="{{ruta.id}}">{{ruta.lugar}}</option>
+                                    {% endfor %}
+                                </select>
+                                <span id="errorDestino" style="color: red; display: none;"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fecha" class="form-label">Fecha</label>
+                                <input type="date" class="form-control" name="fecha" id="fecha">
+                                <span id="errorFecha" style="color: red; display: none;"></span>
+                            </div>
+                            <div class="d-grid gap-2 mt-4">
+                                <button type="submit" class="btn btn-primary full-width">Buscar</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label">Destino</label>
-                  <select class="form-select" name="destino" aria-label="Default select example">
-                    <option selected>Seleccionar Destino</option>
-                    {% for ruta in rutas %}
-                    <option value="{{ruta.id}}">{{ruta.lugar}}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-                <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label">Fecha</label>
-
-                  <input type="date" class="form-control" name="fecha" id="exampleCheck1">
-                </div>
-                <div class="d-grid gap-2 mt-4">
-                  <button type="submit" class="btn btn-primary full-width">Buscar</button>
-                </div>
-               
-              </form>
-              <!-- <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-body-secondary">9 mins</small>
-              </div> -->
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 
   {% endblock %}
 
 {% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var fechaActual = new Date();
+      var dia = String(fechaActual.getDate()).padStart(2, '0');
+      var mes = String(fechaActual.getMonth() + 1).padStart(2, '0');
+      var ano = fechaActual.getFullYear();
+  
+      var fechaMinima = ano + '-' + mes + '-' + dia;
+      document.getElementById('fecha').min = fechaMinima;
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var rutaOrigen = document.getElementById('rutaOrigen');
+    var rutaDestino = document.getElementById('rutaDestino');
+
+    function validarLugares() {
+        if (rutaOrigen.value === rutaDestino.value && rutaOrigen.value !== "") {
+            document.getElementById('errorDestino').textContent = 'La ruta de origen y la ruta de destino no pueden ser iguales.';
+            document.getElementById('errorDestino').style.display = 'block';
+            document.getElementById('formBuscar').querySelector('button[type="submit"]').disabled = true;
+        } else {
+            document.getElementById('errorDestino').style.display = 'none';
+            document.getElementById('formBuscar').querySelector('button[type="submit"]').disabled = false;
+        }
+    }
+    rutaOrigen.addEventListener('change', validarLugares);
+    rutaDestino.addEventListener('change', validarLugares);
+
+    validarLugares();
+  });
+
+  document.getElementById('formBuscar').addEventListener('submit', function(event) {
+    var origen = document.getElementById('rutaOrigen').value;
+    var destino = document.getElementById('rutaDestino').value;
+    var fecha = document.getElementById('fecha').value;
+
+    if (origen === '' || origen === 'Seleccionar Origen') {
+        document.getElementById('errorOrigen').textContent = 'Por favor, selecciona un origen.';
+        document.getElementById('errorOrigen').style.display = 'block';
+        event.preventDefault();
+    } else {
+        document.getElementById('errorOrigen').style.display = 'none';
+    }
+
+    if (destino === '' || destino === 'Seleccionar Destino') {
+        document.getElementById('errorDestino').textContent = 'Por favor, selecciona un destino.';
+        document.getElementById('errorDestino').style.display = 'block';
+        event.preventDefault();
+    } else {
+        document.getElementById('errorDestino').style.display = 'none';
+    }
+
+    if (fecha === '') {
+        document.getElementById('errorFecha').textContent = 'Por favor, selecciona una fecha.';
+        document.getElementById('errorFecha').style.display = 'block';
+        event.preventDefault();
+    } else {
+        document.getElementById('errorFecha').style.display = 'none';
+    }
+  });
+  </script>
 {% endblock %}
 
 

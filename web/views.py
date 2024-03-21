@@ -4,8 +4,13 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from reservas.models import ruta, viajero, viajero, agencia, pasaje
 from django.db.models.functions import TruncDate
-from django.views.generic import ListView
+from django.views.generic import ListView, FormView, TemplateView
+from reservas.models import Agencia
 from django.db.models import Count, F
+from django.utils import timezone
+from .forms import ViajerosForm
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 def home(request):
@@ -16,12 +21,13 @@ def home(request):
         {'curiosity': 'El primer sistema de metro subterráneo fue inaugurado en Londres en  1863.', 'source': 'Historia del Metro'},
         {'curiosity': 'El primer ferry de hidrógeno, el "Hyperion", comenzó a operar en  2021.', 'source': 'Innovaciones en Transporte'},
     ]
-    rutas = ruta.Ruta.objects.all()
-    
-    pasajes_disponibles = pasaje.Pasaje.objects.annotate(
+    rutas = Ruta.objects.all()
+
+    pasajes_disponibles = Pasaje.objects.annotate(
         asientos_ocupados=Count('viaje')
     ).filter(
-        asientos_ocupados__lt=F('capacidad')
+        asientos_ocupados__lt=F('capacidad'),
+        fecha__gte=timezone.now().date()
     )[:6]
 
     
@@ -45,4 +51,37 @@ class AgenciaListView(ListView):
     template_name = 'web/agencias.html'
     
 
+class ViajerosCompraView(LoginRequiredMixin, FormView):
+    template_name = 'web/reservar/viajeros.html'
+    form_class = ViajerosForm
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["asientos"] = Pasaje.objects.get(pk=self.kwargs.get('pk')).asientos()
+        return context
+    
+    def get_success_url(self):
+        return reverse_lazy('reservar_detalles', kwargs={'pk': self.kwargs.get('pk')})
+    
+    def get_form_kwargs(self):
+        kwargs = super(ViajerosCompraView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+    def form_valid(self, form):
+        self.request.session['viajeros_ids'] = list(form.cleaned_data['viajeros'].values_list('id', flat=True))
+        return super().form_valid(form)
+    
+class DetallesCompraView(LoginRequiredMixin, TemplateView):
+    template_name = 'web/reservar/detalles.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        viajeros_ids = self.request.session.get('viajeros_ids', [])
+        viajeros = Viajero.objects.filter(id__in=viajeros_ids)
+        pasaje = Pasaje.objects.get(pk=self.kwargs.get('pk'))
+        context['total_pagar'] = len(viajeros) * pasaje.precio
+        context['pasaje'] = pasaje
+        context["viajeros"] = viajeros
+        return context
     

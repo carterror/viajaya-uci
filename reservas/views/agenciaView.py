@@ -15,7 +15,7 @@ class AgenciaListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def test_func(self):
         return self.request.user.is_staff
     
-class AgenciaCreateView(LoginRequiredMixin, CreateView):
+class AgenciaCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     # permission_required = ('catalog.can_mark_returned', 'catalog.can_edit')
     model = Agencia
     form_class = AgenciaForm
@@ -27,7 +27,10 @@ class AgenciaCreateView(LoginRequiredMixin, CreateView):
         messages.success(self.request, 'Acción realizada con éxito.')
         return response
     
-class AgenciaUpdateView(LoginRequiredMixin, UpdateView):
+    def test_func(self):
+        return self.request.user.is_staff
+    
+class AgenciaUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Agencia
     form_class = AgenciaForm
     template_name = 'agencias/editar_agencia.html'
@@ -40,8 +43,11 @@ class AgenciaUpdateView(LoginRequiredMixin, UpdateView):
         response = super().form_valid(form)
         messages.success(self.request, 'Acción realizada con éxito.')
         return response
+    
+    def test_func(self):
+        return self.request.user.is_staff
 
-class AgenciaDeleteView(LoginRequiredMixin, DeleteView):
+class AgenciaDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Agencia
     template_name = 'agencias/eliminar_agencia.html'
     success_url = reverse_lazy('lista_agencias')
@@ -52,3 +58,6 @@ class AgenciaDeleteView(LoginRequiredMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, 'Acción realizada con éxito.')
         return super().delete(request, *args, **kwargs)
+    
+    def test_func(self):
+        return self.request.user.is_staff

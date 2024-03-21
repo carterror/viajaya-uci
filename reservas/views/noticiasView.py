@@ -1,17 +1,20 @@
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from web.models import Notice
 from reservas.forms.noticiaForm import NoticeForm
 
-class NoticiaListView(LoginRequiredMixin, ListView):
+class NoticiaListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Notice
     context_object_name = 'noticias'
     template_name = 'noticias/lista_noticias.html'
     
-class NoticiaCreateView(LoginRequiredMixin, CreateView):
+    def test_func(self):
+        return self.request.user.is_staff
+    
+class NoticiaCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Notice
     form_class = NoticeForm
     template_name = 'noticias/agregar_noticia.html'
@@ -22,7 +25,10 @@ class NoticiaCreateView(LoginRequiredMixin, CreateView):
         messages.success(self.request, "Acción realizada con éxito.")
         return response
     
-class NoticiaUpdateView(LoginRequiredMixin, UpdateView):
+    def test_func(self):
+        return self.request.user.is_staff
+    
+class NoticiaUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Notice
     form_class = NoticeForm
     template_name = 'noticias/editar_noticia.html'
@@ -36,7 +42,10 @@ class NoticiaUpdateView(LoginRequiredMixin, UpdateView):
         messages.success(self.request, 'Acción realizada con éxito.')
         return response
     
-class NoticiaDeleteView(LoginRequiredMixin, DeleteView):
+    def test_func(self):
+        return self.request.user.is_staff
+    
+class NoticiaDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Notice
     template_name = 'noticias/eliminar_noticia.html'
     success_url = reverse_lazy('lista_noticias')
@@ -47,3 +56,6 @@ class NoticiaDeleteView(LoginRequiredMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, 'Acción realizada con éxito.')
         return super().delete(request, *args, **kwargs)
+    
+    def test_func(self):
+        return self.request.user.is_staff

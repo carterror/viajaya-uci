@@ -17,12 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from web.views import home, buscar, AgenciaListView
+from web.views import home, buscar, AgenciaListView, ViajerosCompraView, DetallesCompraView
 
 urlpatterns = [
     path('', home, name='home'),
     path('buscar/', buscar, name='buscar'),
     path('agencias/', AgenciaListView.as_view(), name='list_agencias'),
+    
+    path('reservar/<int:pk>/viajeros', ViajerosCompraView.as_view(), name='reservar_viajeros'),
+    path('reservar/<int:pk>/detalles', DetallesCompraView.as_view(), name='reservar_detalles'),
     
   
 ]

@@ -1,0 +1,65 @@
+{% extends 'web/layout.html' %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block content %}
+
+<div class="album py-5 bg-body-tertiary">
+ <div class="container">
+    <div class="row justify-content-center mt-4">
+      <div class="col-lg-8">
+        <div class="card shadow-sm">
+          <div class="card-title fw-bold text-center"><h3>Perfil de Usuario</h3></div>
+          {% comment %} <div class="card-header justify-content-end">
+            <h3>{{user.first_name}} {{user.last_name}}</h3>
+          </div> {% endcomment %}
+          <div class="card-body">
+            <form method="post">
+              {% csrf_token %}
+    
+              {{ form.as_p }}
+              
+              <div class="modal-footer justify-content-center">
+                <button type="submit" class="btn btn-primary" id="btnGuardar">Guardar Cambios</button>
+              </div>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+ </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var inputs = document.querySelectorAll('input, select, textarea');
+      var btnGuardar = document.getElementById('btnGuardar');
+  
+      function habilitarBoton() {
+          btnGuardar.disabled = false;
+      }
+  
+      function deshabilitarBoton() {
+          btnGuardar.disabled = true;
+      }
+  
+      inputs.forEach(function(input) {
+          input.addEventListener('change', function() {
+              habilitarBoton();
+          });
+      });
+  
+      document.querySelector('form').addEventListener('submit', function() {
+          deshabilitarBoton();
+      });
+  
+      deshabilitarBoton();
+  });
+  </script>  
+
+{% endblock %}
