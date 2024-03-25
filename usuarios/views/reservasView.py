@@ -1,6 +1,7 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView
 from reservas.models import Viaje
 
+
 class ReservaListView(ListView):
     model = Viaje
     template_name = ".html"

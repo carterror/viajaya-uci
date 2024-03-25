@@ -8,7 +8,7 @@ from usuarios.models import Usuario
 class RegistroUsuarioForm(UserCreationForm):
     class Meta:
         model = Usuario
-        fields="__all__"
+        fields = ("first_name", "email", "ci", "username", "password1", "password2")
         
 class PerfilForm(forms.ModelForm):
     first_name = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}),

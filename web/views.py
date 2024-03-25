@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from reservas.models import ruta, viajero, viajero, agencia, pasaje
 from django.db.models.functions import TruncDate
 from django.views.generic import ListView, FormView, TemplateView
-from reservas.models.agencia import Agencia
+from reservas.models import Agencia, Ruta, Pasaje, Viaje, Viajero
 from django.db.models import Count, F
 from django.utils import timezone
 from .forms import ViajerosForm

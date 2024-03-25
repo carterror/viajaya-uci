@@ -29,7 +29,7 @@ class CustomCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
             input_attrs['name'] = name
             input_attrs['value'] = choice_value
             input_attrs['id'] = f"{name}-{i}"
-            input_attrs['class'] = 'btn-check'
+            input_attrs['class'] = 'btn-check w-100'
             input_attrs['autocomplete'] = 'off'
 
             if value and choice_value in value:
@@ -37,7 +37,7 @@ class CustomCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
 
             input_html = f'<input {flatatt(input_attrs)}>'
 
-            label_attrs = {'class': 'btn btn-outline-primary', 'for': input_attrs['id']}
+            label_attrs = {'class': 'btn btn-outline-primary w-100 mb-3', 'for': input_attrs['id']}
             label_html = f'<label {flatatt(label_attrs)}>{choice_label}</label>'
 
             output.append(f'{input_html}{label_html}<br>')

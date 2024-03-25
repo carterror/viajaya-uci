@@ -55,4 +55,5 @@ urlpatterns = [
     path('noticias/agregar/', noticiasView.NoticiaCreateView.as_view(), name='agregar_noticia'),
     path('noticias/<int:pk>/editar/', noticiasView.NoticiaUpdateView.as_view(), name='editar_noticia'),
     path('noticias/<int:pk>/eliminar/', noticiasView.NoticiaDeleteView.as_view(), name='eliminar_noticia'),
+    
 ]
