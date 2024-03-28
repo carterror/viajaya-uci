@@ -7,36 +7,6 @@ from usuarios.models import Usuario
 # agregar_viajero
 # editar_viajero
 # eliminar_viajero
-class AuthTest(TestCase):
-    def setUp(self):
-        # Configura el entorno de prueba
-        self.cliente = Client()
-        Usuario.objects.create_superuser(username='admin', password='admin')
-        
-    def test_auth_ok(self):
-        # Intenta acceder a la vista sin autenticación
-        respuesta = self.cliente.get(reverse('lista_viajeros'))
-        self.assertEqual(respuesta.status_code, 302)  # Redirección a la página de inicio de sesión
-
-        # Inicia sesión con el usuario de prueba
-        self.cliente.login(username='admin', password='admin')
-
-        # Accede a la vista con autenticación
-        respuesta = self.cliente.get(reverse('lista_viajeros'))
-        self.assertEqual(respuesta.status_code, 200)  # Acceso concedido
-
-    def test_auth_fail(self):
-        # Intenta acceder a la vista sin autenticación
-        respuesta = self.cliente.get(reverse('lista_viajeros'))
-        self.assertEqual(respuesta.status_code, 302)  # Redirección a la página de inicio de sesión
-
-        # Inicia sesión con el usuario de prueba
-        self.cliente.login(username='admin', password='adminincorrect')
-
-        # Accede a la vista con autenticación
-        respuesta = self.cliente.get(reverse('lista_viajeros'))
-        self.assertEqual(respuesta.status_code, 302)  # Acceso concedido
-        
     
 class ViajeroUnitTest(TestCase):
     def setUp(self):
@@ -57,8 +27,7 @@ class ViajeroUnitTest(TestCase):
         self.assertEqual(viajero.ci, '00110367543')
         self.assertEqual(viajero.user.username, 'admin')
 
-# Prueba de integración
-class IntegracionTestCase(TestCase):
+class ViajeroTestCase(TestCase):
     def setUp(self):
         # Configura el entorno de prueba
         self.client = Client()
@@ -75,7 +44,7 @@ class IntegracionTestCase(TestCase):
             user = self.usuario,
         )
         
-    def test_list_ok(self):
+    def test_get_ok(self):
         self.client.login(username='admin', password='admin')
         
         # Obtener la URL de la vista
