@@ -18,10 +18,10 @@ Including another URLconf
 from django.contrib.auth import views as auth_views
 from django.urls import path, include
 
-from reservas.views import agenciaView, home, noticiasView, pasajeView, rutaView, viajeroView, viajeView
+from reservas.views import agenciaView, home, noticiasView, pasajeView, rutaView, viajeroView, viajeView, usuarioView
 
 urlpatterns = [
-    path('', home.home, name='dashboard'),
+    path('', home.HomeView.as_view(), name='dashboard'),
     
     path('rutas/', rutaView.RutaListView.as_view(), name='lista_rutas'),
     path('rutas/agregar/', rutaView.RutaCreateView.as_view(), name='agregar_ruta'),
@@ -46,14 +46,16 @@ urlpatterns = [
     path('viajes/', viajeView.ViajeListView.as_view(), name='lista_viajes'),
     path('viajes/agregar/', viajeView.ViajeCreateView.as_view(), name='agregar_viaje'),
     path('viajes/<int:pk>/editar/', viajeView.ViajeUpdateView.as_view(), name='editar_viaje'),
-    path('viajes/', viajeView.ViajeListView.as_view(), name='lista_viajes'),
-    path('viajes/agregar/', viajeView.ViajeCreateView.as_view(), name='agregar_viaje'),
-    path('viajes/<int:pk>/editar/', viajeView.ViajeUpdateView.as_view(), name='editar_viaje'),
     path('viajes/<int:pk>/eliminar/', viajeView.ViajeDeleteView.as_view(), name='eliminar_viaje'),
     
     path('noticias/', noticiasView.NoticiaListView.as_view(), name='lista_noticias'),
     path('noticias/agregar/', noticiasView.NoticiaCreateView.as_view(), name='agregar_noticia'),
     path('noticias/<int:pk>/editar/', noticiasView.NoticiaUpdateView.as_view(), name='editar_noticia'),
     path('noticias/<int:pk>/eliminar/', noticiasView.NoticiaDeleteView.as_view(), name='eliminar_noticia'),
+    
+    path('usuarios/', usuarioView.UsuarioListView.as_view(), name='lista_usuarios'),
+    # path('usuarios/agregar/', noticiasView.NoticiaCreateView.as_view(), name='agregar_noticia'),
+    # path('usuarios/<int:pk>/editar/', noticiasView.NoticiaUpdateView.as_view(), name='editar_noticia'),
+    path('usuarios/<int:pk>/eliminar/', usuarioView.UsuarioDeleteView.as_view(), name='eliminar_usuario'),
     
 ]

@@ -14,13 +14,14 @@
           <div class="card-body">
             <form action="" method="post" class="row" id="form">
               {% csrf_token %}
-              {{ form.non_field_errors }}
+              
               {% for field in form %}
                 <div class="mb-3">
                  {{ field.errors }}
                  {{ field.label_tag }} {{ field }}
                 </div>
               {% endfor %}
+              {{ form.non_field_errors }}
               <div class="row mt-4">
                 <div class="col-sm-6">
                     <a class="btn btn-secondary" href="{% url 'list_viajeros' %}">Cancelar</a>

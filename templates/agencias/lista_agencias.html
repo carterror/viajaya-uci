@@ -13,7 +13,7 @@
     <h1>Agencias</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Panel de Control</a></li>
             <li class="breadcrumb-item active">Agencias</li>
         </ol>
     </nav>
@@ -25,17 +25,23 @@
 
             <div class="card-body">
                 <div class="card-title">
+                    {% csrf_token %}
                     Lista de Agencias
-                    <a class="btn btn-outline-primary float-end " href="{% url 'agregar_agencia' %}">Agregar Nueva Agencia</a>
+                    
+                    <a class="btn btn-primary float-end " href="{% url 'agregar_agencia' %}">Registrar</a>
+                    <button type="button" id="eliminarSeleccionados" class="btn btn-danger float-end">Eliminar</button>
                 </div>
 
                 <!-- Table with stripped rows -->
                 <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
                     
                     <div class="datatable-container overflow-auto">
+                        
+                            
                         <table id="miTabla" class="table datatable " data-bs-theme="dark">
                             <thead>
                             <tr>
+                                <th data-sortable="false"><input type="checkbox" id="selectAll"></th>
                                 <th> Nombre </th>
                                 <th> Provincia </th>
                                 <th> Telefono </th>
@@ -48,6 +54,7 @@
 
 
                             <tr data-index="0">
+                                <td><input type="checkbox" class="rowCheckbox" data-id="{{ agencia.pk }}"></td>
                                 <td>{{ agencia.nombre }}</td>
                                 <td>{{ agencia.provincia }}</td>
                                 <td>{{ agencia.telefono }}</td>

@@ -3,6 +3,8 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 from web.models import Notice
 from reservas.forms.noticiaForm import NoticeForm
 
@@ -10,6 +12,16 @@ class NoticiaListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Notice
     context_object_name = 'noticias'
     template_name = 'noticias/lista_noticias.html'
+    
+    @csrf_exempt
+    def post(self, request, *args, **kwargs):
+        ids = self.request.POST.getlist('ids[]')
+        if ids:
+            ids = [int(id) for id in ids]
+            Noticie.objects.filter(id__in=ids).delete()
+            return JsonResponse({'status': 'success'})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'No se proporcionaron IDs'})
     
     def test_func(self):
         return self.request.user.is_staff

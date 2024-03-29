@@ -3,6 +3,8 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 from reservas.models.agencia import Agencia
 from reservas.forms.agenciaForm import AgenciaForm
 
@@ -11,6 +13,16 @@ class AgenciaListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Agencia
     template_name = "agencias/lista_agencias.html"
     context_object_name = "agencias"
+    
+    @csrf_exempt
+    def post(self, request, *args, **kwargs):
+        ids = self.request.POST.getlist('ids[]')
+        if ids:
+            ids = [int(id) for id in ids]
+            Agencia.objects.filter(id__in=ids).delete()
+            return JsonResponse({'status': 'success'})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'No se proporcionaron IDs'})
     
     def test_func(self):
         return self.request.user.is_staff

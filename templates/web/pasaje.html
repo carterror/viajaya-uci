@@ -42,8 +42,11 @@
                 </ol>
                 {% else %}
                 <div class="justify-content-center">
-                  <h4> No hay pasajes disponibles para esta fecha! </h4>
-                  <a href="{% url 'buscar' %}" class="btn btn-outline-primary">Seguir Buscando</a>
+                  <h4 class="text-center"> No hay pasajes disponibles para esta fecha! </h4>
+                  <div class="d-flex justify-content-center">
+                    <a href="{% url 'buscar' %}" class="btn btn-outline-primary">Seguir Buscando</a>
+                  </div>
+                  
                 </div>
                 
                 {% endif %}

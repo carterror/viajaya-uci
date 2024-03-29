@@ -78,10 +78,32 @@ class DetallesCompraView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         viajeros_ids = self.request.session.get('viajeros_ids', [])
-        viajeros = viajero.Viajero.objects.filter(id__in=viajeros_ids)
-        pasaje = pasaje.Pasaje.objects.get(pk=self.kwargs.get('pk'))
+        viajeros = Viajero.objects.filter(id__in=viajeros_ids)
+        pasaje = Pasaje.objects.get(pk=self.kwargs.get('pk'))
         context['total_pagar'] = len(viajeros) * pasaje.precio
         context['pasaje'] = pasaje
         context["viajeros"] = viajeros
         return context
     
+    def post(self, request, *args, **kwargs):
+        viajeros_ids = self.request.session.get('viajeros_ids', [])
+        viajeros = Viajero.objects.filter(id__in=viajeros_ids)
+        pasaje = Pasaje.objects.get(pk=self.kwargs.get('pk'))
+        for viajero in viajeros:
+            viaje = Viaje()
+            viaje.pasaje = pasaje
+            viaje.viajero = viajero
+            viaje.user = request.user
+            viaje.save()
+        del self.request.session['viajeros_ids']    
+        return redirect('reservar_completado')
+    
+class CompletadoView(LoginRequiredMixin, TemplateView):
+    template_name = 'web/reservar/completado.html'
+    
+    
+    
+class ReservasListView(LoginRequiredMixin, ListView):
+    model = Viaje
+    context_object_name = "reservas"
+    template_name = "web/reservas/lista_reservas.html"

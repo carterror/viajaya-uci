@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-
+{% load widget_tweaks %}
 {% block extra_head %}
 <style>
 
@@ -10,11 +10,11 @@
 {% block content %}
 
 <div class="pagetitle">
-    <h1>Rutas</h1>
+    <h1>Usuarios</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Panel de Control</a></li>
-            <li class="breadcrumb-item active">Rutas</li>
+            <li class="breadcrumb-item active">Usuarios</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
@@ -26,41 +26,47 @@
             <div class="card-body">
                 <div class="card-title">
                     {% csrf_token %}
-                    Lista de Rutas
-                    <a class="btn btn-primary float-end " href="{% url 'agregar_ruta' %}">Registrar</a>
+                    Lista de Usuarios
+                    {% comment %} <a class="btn btn-outline-primary float-end " href="{% url 'agregar_viajero' %}">Agregar Viajero</a> {% endcomment %}
                     <button type="button" id="eliminarSeleccionados" class="btn btn-danger float-end">Eliminar</button>
                 </div>
 
                 <!-- Table with stripped rows -->
                 <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+                    
                     <div class="datatable-container overflow-auto">
-                            
+                        
                         <table id="miTabla" class="table datatable " data-bs-theme="dark">
                             <thead>
-
                             <tr>
                                 <th data-sortable="false"><input type="checkbox" id="selectAll"></th>
-                                <th> Lugar </th>
-                                <th data-sortable="false">Acciones</th>
+                                <th> Nombre </th>
+                                <th> Nombre de Usuario </th>
+                                <th> CI </th>
+                                <th> Correo </th>
+                                <th data-sortable="false" data-searchable="false">Acciones</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for ruta in rutas %}
+                            {% for usuario in usuarios %}
 
 
                             <tr data-index="0">
-                                <td><input type="checkbox" class="rowCheckbox" data-id="{{ ruta.pk }}"></td>
-                                <td>{{ ruta.lugar }}</td>
+                                <td><input type="checkbox" class="rowCheckbox" data-id="{{ usuario.pk }}"></td>
+                                <td>{{ usuario.first_name }}</td>
+                                <td>{{ usuario.username }}</td>
+                                <td>{{ usuario.ci }}</td>
+                                <td>{{ usuario.user }}</td>
+                                
 
                                 <td class="w-25">
-                                    <a class="btn btn-primary" href="{% url 'editar_ruta' ruta.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Editar" data-bs-theme="dark"><i class="bi bi-pen"></i></a>
-                                    <a class="btn btn-danger" href="{% url 'eliminar_ruta' ruta.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Eliminar" data-bs-theme="dark"><i class="bi bi-trash"></i></a>
+                                    <a class="btn btn-primary" href="{% url 'editar_viajero' usuario.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Editar" data-bs-theme="dark"><i class="bi bi-pen"></i></a>
+                                    <a class="btn btn-danger" href="{% url 'eliminar_usuario' usuario.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Eliminar" data-bs-theme="dark"><i class="bi bi-trash"></i></a>
                                 </td>
                             </tr>
                             {% endfor %}
                             </tbody>
                         </table>
-                        
                     </div>
                 </div>
                 <!-- End Table with stripped rows -->
@@ -73,5 +79,4 @@
 {% endblock %}
 
 {% block extra_js %}
-   
 {% endblock %}

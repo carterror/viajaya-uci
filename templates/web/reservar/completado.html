@@ -1,0 +1,36 @@
+{% extends 'web/layout.html' %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block content %}
+
+<div class="album py-5 bg-body-tertiary d-flex justify-content-center align-items-center min-vh-100">
+    <div class="container">
+        <div class="row justify-content-center mt-4">
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-header fw-bold text-center">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            <h3>Pago Verificado</h3>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="text-center">Acción realizada con éxito.</h5>
+                        <br>
+                        <div class="d-flex justify-content-center">
+                            {% comment %} <a href="{% url 'home' %}" type="button" class="btn btn-primary mx-2">Inicio</a> {% endcomment %}
+                            <a href="{% url 'reservas' %}" type="button" class="btn btn-primary mx-2">Reservas</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}

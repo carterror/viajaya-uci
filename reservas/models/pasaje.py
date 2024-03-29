@@ -15,10 +15,10 @@ class Pasaje(models.Model):
     })
     
     def __repr__(self):
-        return f'{self.origen} - {self.destino}'
+        return f'{self.origen} - {self.destino} {self.fecha}'
     
     def __str__(self):
-        return f'{self.origen} - {self.destino}'
+        return f'{self.origen} - {self.destino} {self.fecha}'
 
     def asientos(self):
         ocupados = Viaje.objects.filter(pasaje=self).count()
@@ -37,3 +37,8 @@ class Viaje(models.Model):
     viajero = models.ForeignKey(viajero.Viajero, null=False, on_delete=models.CASCADE)
     user = models.ForeignKey(Usuario, null=False, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    # estado = models.CharField(null=False, max_length=20, choices={
+    #     "A": "Activa",
+    #     "R": "Realizada",
+    #     "C": "Cancelada",
+    # })

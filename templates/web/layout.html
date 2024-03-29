@@ -76,7 +76,7 @@
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li><a class="dropdown-item" href="{% url 'perfil' %}">Perfil</a></li>
                                     <li><a class="dropdown-item" href="{% url 'list_viajeros' %}">Viajeros</a></li>
-                                    <li><a class="dropdown-item" href="#">Reservas</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'reservas' %}">Reservas</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
@@ -126,7 +126,7 @@
     </footer>
     <script src="{% static '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <!-- <script src="{% static '/assets/vendor/bootstrap/js/bootstrap.min.js' %}"></script> -->
-    <!-- <script src="{% static '/assets/js/jquery-3.7.1.js' %}"></script> -->
+    <script src="{% static '/assets/js/jquery-3.7.1.min.js' %}"></script>
     <!-- Template Main JS File -->
 
     {% block extra_js %}{% endblock %}

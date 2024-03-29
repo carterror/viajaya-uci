@@ -58,3 +58,12 @@ class ViajerosForm(forms.Form):
                                                                                     attrs={'class': 'btn-check my-2'}
                                                                                 ),
                                               label='')
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        viajeros_seleccionados = cleaned_data.get('viajeros')
+
+        if viajeros_seleccionados and len(viajeros_seleccionados) > 4:
+            raise ValidationError("No puedes seleccionar más de 4 viajeros.")
+
+        return cleaned_data

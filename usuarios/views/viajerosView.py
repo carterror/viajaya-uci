@@ -33,16 +33,27 @@ class ViajeroCreateView(LoginRequiredMixin, CreateView):
         messages.success(self.request, 'Acción realizada con éxito.')
         return response
     
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
+    
 class ViajeroUpdateView(LoginRequiredMixin, UpdateView):
     model = Viajero
     form_class = ViajeroForm
     template_name = 'web/viajeros/editar_viajero.html'
     success_url = reverse_lazy('list_viajeros')
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
+
     def form_valid(self, form):
         response = super().form_valid(form)
         messages.success(self.request, 'Acción realizada con éxito.')
         return response
+    
     
 class ViajeroDeleteView(LoginRequiredMixin, DeleteView):
     model = Viajero

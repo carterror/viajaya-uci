@@ -73,8 +73,11 @@
                </div>
          </div>
          <div class="modal-footer">
+          <form action="" method="post">
+            {% csrf_token %}
            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-           <button type="button" class="btn btn-primary">Verificar Pago</button>
+           <button type="sumbit" class="btn btn-primary">Verificar Pago</button>
+          </form>
          </div>
        </div>
     </div>

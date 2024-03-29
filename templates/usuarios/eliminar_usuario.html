@@ -7,11 +7,11 @@
 {% block content %}
 
 <div class="pagetitle">
-    <h1>Eliminar Ruta</h1>
+    <h1>Eliminar Usuario</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Panel de Control</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'lista_rutas' %}">Rutas</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'lista_viajeros' %}">Usuarios</a></li>
             <li class="breadcrumb-item active">Eliminar</li>
         </ol>
     </nav>
@@ -21,14 +21,14 @@
     <div class="row">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Eliminar Ruta</h5>
-                <h2 class="mb-5">¿Estás seguro de que quieres eliminar la ruta "{{ ruta.lugar }}"?</h2>
+                <h5 class="card-title">Eliminar Usuario</h5>
+                <h2 class="mb-5">¿Estás seguro de que quieres eliminar el usuario "{{ usuario.first_name }}"?</h2>
 
                 <form method="post">
                     {% csrf_token %}
                     <button class="btn btn-danger" type="submit">Eliminar</button>
 
-                     <a class="btn btn-primary" href="{% url 'lista_rutas' %}">Cancelar</a>
+                     <a class="btn btn-primary" href="{% url 'lista_usuarios' %}">Cancelar</a>
                 </form>
 
 
