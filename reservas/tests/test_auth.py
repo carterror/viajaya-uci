@@ -11,6 +11,9 @@ class AuthTest(TestCase):
         
     def test_auth_ok(self):
         # Intenta acceder a la vista sin autenticación
+        respuesta = self.cliente.get(reverse('home'))
+        self.assertEqual(respuesta.status_code, 200) 
+        
         respuesta = self.cliente.get(reverse('lista_viajeros'))
         self.assertEqual(respuesta.status_code, 302)  # Redirección a la página de inicio de sesión
 

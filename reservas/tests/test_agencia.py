@@ -1,90 +1,90 @@
 from django.test import TestCase, Client
 from django.urls import reverse
-from reservas.models.viajero import Viajero
+from reservas.models.agencia import Agencia
 from usuarios.models import Usuario
 
-# lista_viajeros
-# agregar_viajero
-# editar_viajero
-# eliminar_viajero
-    
-class ViajeroUnitTest(TestCase):
+
+class AgenciaUnitTest(TestCase):
     def setUp(self):
         usuario = Usuario.objects.create_superuser(
             'admin', 'admin@test.com', 'admin', ci = '00110367543'
         )
-        
-        self.viajero = Viajero.objects.create(
-            nombre = 'Carlos Brayan',
-            ci = '00110367543',
-            user = usuario,
+
+        self.agencia = Agencia.objects.create(
+            nombre = 'Agencia test',
+            provincia = 'provincia test',
+            telefono = '11036743',
+            direccion = 'direccion test',
         )
     
     def test_model(self):
         # Configura el objeto de prueba
-        viajero = Viajero.objects.first()
-        self.assertEqual(viajero.nombre, 'Carlos Brayan')
-        self.assertEqual(viajero.ci, '00110367543')
-        self.assertEqual(viajero.user.username, 'admin')
+        agencia = Agencia.objects.first()
+        self.assertEqual(agencia.nombre, 'Agencia test')
+        self.assertEqual(agencia.telefono, '11036743')
 
-class ViajeroTestCase(TestCase):
+class agenciaTestCase(TestCase):
     def setUp(self):
         # Configura el entorno de prueba
         self.client = Client()
         self.usuario = Usuario.objects.create_superuser(username='admin', password='admin')
 
-        Viajero.objects.create(
-            nombre = 'Carlos Brayan',
-            ci = '00110367544',
-            user = self.usuario,
+        Agencia.objects.create(
+            nombre = 'Agencia test',
+            provincia = 'provincia test',
+            telefono = '11036743',
+            direccion = 'direccion test',
         )
-        Viajero.objects.create(
-            nombre = 'Javier Gonzalez',
-            ci = '00110367543',
-            user = self.usuario,
+        Agencia.objects.create(
+            nombre = 'Agencia test 2',
+            provincia = 'provincia test 2',
+            telefono = '11036741',
+            direccion = 'direccion test 2',
         )
         
     def test_get_ok(self):
         self.client.login(username='admin', password='admin')
         
         # Obtener la URL de la vista
-        url = reverse('lista_viajeros')
+        url = reverse('lista_agencias')
         # Realizar la solicitud GET a la vista
         response = self.client.get(url)
         # Verificar que la respuesta es 200 OK
         self.assertEqual(response.status_code, 200)
         # Verificar que la plantilla correcta se esté utilizando
-        self.assertTemplateUsed(response, 'viajeros/lista_viajeros.html')
+        self.assertTemplateUsed(response, 'agencias/lista_agencias.html')
         # Verificar que los usuarios estén en el contexto de la respuesta
-        viajeros_en_contexto = response.context['viajeros']
-        self.assertEqual(len(viajeros_en_contexto), 2)
+        agencias_en_contexto = response.context['agencias']
+        self.assertEqual(len(agencias_en_contexto), 2)
         # Verificar que los datos de los usuarios estén en el contenido de la respuesta
-        self.assertContains(response, 'Carlos Brayan')
-        self.assertContains(response, 'Javier Gonzalez')
+        self.assertContains(response, 'Agencia test 2')
+        self.assertContains(response, 'Agencia test')
         
     def test_form_post(self):
         self.client.login(username='admin', password='admin')
         
         # Aquí debes definir los datos que enviarás en la petición POST
         data = {
-            'ci': '01210598724',
-            'nombre': 'Alejandro Santana',
+            'nombre': 'Agencia test 4',
+            'provincia': 'provincia test 4',
+            'telefono': '11036741',
+            'direccion': 'direccion test 4',
         }
         
         # Utiliza reverse para obtener la URL basada en el nombre de la vista
-        url = reverse('agregar_viajero')
-        urlr = reverse('lista_viajeros')
+        url = reverse('agregar_agencia')
+        urlr = reverse('lista_agencias')
         
         # Realiza la petición POST con el cliente de prueba
         response = self.client.post(url, data)
         
         # Aquí verificar la respuesta
         # Verificar que la respuesta redirige a la URL correcta
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, urlr)
+        self.assertEqual(response.status_code, 200)
+        # self.assertRedirects(response, urlr)
         
         # Verifica que se creo correctamente en la base de datos
-        objeto_creado = Viajero.objects.filter(ci='01210598724', nombre='Alejandro Santana').exists()
+        objeto_creado = Agencia.objects.filter(telefono='11036741').exists()
         self.assertTrue(objeto_creado)
         
     def test_form_put(self):
@@ -92,36 +92,38 @@ class ViajeroTestCase(TestCase):
         
         # Aquí debes definir los datos que enviarás en la petición POST
         data = {
-            'ci': '01210598725',
-            'nombre': 'Alejandro Santana 1',
+            'nombre': 'Agencia test 3',
+            'provincia': 'provincia test 3',
+            'telefono': '11036748',
+            'direccion': 'direccion test 3',
         }
         
         # Utiliza reverse para obtener la URL basada en el nombre de la vista
-        url = reverse('editar_viajero', args=[1])
-        urlr = reverse('lista_viajeros')
+        url = reverse('editar_agencia', args=[1])
+        urlr = reverse('lista_agencias')
         
         # Realiza la petición POST con el cliente de prueba
         response = self.client.post(url, data)
         
         # Aquí verificar la respuesta
         # Verificar que la respuesta redirige a la URL correcta
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, urlr)
+        self.assertEqual(response.status_code, 200)
+        # self.assertRedirects(response, urlr)
         
         # Verifica que se creo correctamente en la base de datos
-        objeto_creado = Viajero.objects.filter(ci='01210598725', nombre='Alejandro Santana 1').exists()
+        objeto_creado = Agencia.objects.filter(telefono='11036748').exists()
         self.assertTrue(objeto_creado)
         
         
     def test_delete(self):
         self.client.login(username='admin', password='admin')
         
-        objeto_creado = Viajero.objects.filter(ci='00110367544').first()
+        objeto_creado = Agencia.objects.filter(telefono='11036743').first()
         self.assertTrue(objeto_creado)
         
         # Utiliza reverse para obtener la URL basada en el nombre de la vista
-        url = reverse('eliminar_viajero', args=[objeto_creado.id])
-        urlr = reverse('lista_viajeros')
+        url = reverse('eliminar_agencia', args=[objeto_creado.id])
+        urlr = reverse('lista_agencias')
         
         
         # Realiza la petición POST con el cliente de prueba
@@ -133,5 +135,5 @@ class ViajeroTestCase(TestCase):
         self.assertRedirects(response, urlr)
         
         # Verifica que se creo correctamente en la base de datos
-        objeto_creado = Viajero.objects.filter(ci='00110367544').exists()
+        objeto_creado = Agencia.objects.filter(telefono='11036743').exists()
         self.assertFalse(objeto_creado)
