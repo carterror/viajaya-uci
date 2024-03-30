@@ -21,6 +21,7 @@ class ViajeListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         if ids:
             ids = [int(id) for id in ids]
             Viaje.objects.filter(id__in=ids).delete()
+            messages.success(self.request, 'Acción realizada con éxito.')
             return JsonResponse({'status': 'success'})
         else:
             return JsonResponse({'status': 'error', 'message': 'No se proporcionaron IDs'})
@@ -47,6 +48,7 @@ class ViajeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Viaje
     form_class = ViajeForm
     template_name = 'viajes/editar_viaje.html'
+    success_url = reverse_lazy('lista_viajes')
 
     def test_func(self):
         return self.request.user.is_staff

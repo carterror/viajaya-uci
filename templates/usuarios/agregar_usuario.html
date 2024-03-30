@@ -7,12 +7,12 @@
 {% block content %}
 
 <div class="pagetitle">
-    <h1>Agregar Viajero</h1>
+    <h1>Registrar Usuario</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Panel de Control</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'lista_viajeros' %}">Viajeros</a></li>
-            <li class="breadcrumb-item active">Agregar</li>
+            <li class="breadcrumb-item"><a href="{% url 'lista_viajeros' %}">Usuarios</a></li>
+            <li class="breadcrumb-item active">Registrar</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
@@ -21,7 +21,7 @@
     <div class="row">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Agregar Viajero</h5>
+                <h5 class="card-title">Registrar Usuario</h5>
 
                 <!-- General Form Elements -->
                 <form method="post" class="row">
@@ -51,10 +51,10 @@
 
             <div class="row mt-4">
                 <div class="col-sm-6">
-                    <a class="btn btn-secondary" href="{% url 'lista_viajeros' %}">Cancelar</a>
+                    <a class="btn btn-secondary" href="{% url 'lista_usuarios' %}">Cancelar</a>
                 </div>
                 <div class="col-sm-6">
-                    <button type="submit" class="btn btn-primary float-end">Agregar Viajero</button>
+                    <button type="submit" class="btn btn-primary float-end">Registrar</button>
                 </div>
             </div>
 

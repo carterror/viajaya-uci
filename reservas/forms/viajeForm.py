@@ -23,7 +23,17 @@ class ViajeForm(forms.ModelForm):
                                     label='Viajero',
                                     empty_label='Selecciona el Viajero')
     
+    estado = forms.ChoiceField(required=True, widget=forms.Select(attrs={'class': 'form-control my-2'},),
+                               choices=(
+                                        ("activa", "Activa"),
+                                        ("proxima",  "Próxima"),
+                                        ("realizada",  "Realizada"),
+                                        ("cancelada", "Cancelada"),
+                                    ),
+                               label='Selecciona el estado'
+                               )
+    
     
     class Meta:
         model = Viaje
-        fields = ['pasaje', 'user', 'viajero']
+        fields = ['pasaje', 'user', 'viajero', 'estado']

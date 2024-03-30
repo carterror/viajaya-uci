@@ -298,7 +298,29 @@
 
   /**
    * Initiate Datatables
+   * 
+   * 
    */
+
+
+  $(document).ready(function() {
+      // Habilitar el botón si hay checkboxes seleccionados al cargar la página
+      if ($('.rowCheckbox:checked').length > 0) {
+          $('#eliminarSeleccionados').prop('disabled', false);
+      }
+
+      // Escuchar los eventos de cambio en los checkboxes
+      $('.rowCheckbox').change(function() {
+          // Verificar si hay algún checkbox seleccionado
+          var haySeleccionados = $('.rowCheckbox:checked').length > 0;
+
+          // Habilitar o deshabilitar el botón según corresponda
+          $('#eliminarSeleccionados').prop('disabled', !haySeleccionados);
+      });
+
+      // El resto de tu código...
+  });
+
 
   $(document).ready(function() {
     var table = $('.datatable').DataTable({
@@ -344,6 +366,8 @@
             $('#selectAll').prop('checked', false);
         }
     });
+
+    
 
     // Botón para eliminar seleccionados
     $(document).ready(function() {

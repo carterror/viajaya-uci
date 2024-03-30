@@ -1,0 +1,40 @@
+{% extends 'web/layout.html' %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block content %}
+
+<div class="album py-5 bg-body-tertiary d-flex justify-content-center align-items-center min-vh-100">
+    <div class="container">
+        <div class="row justify-content-center mt-4">
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-header fw-bold text-center">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <i class="bi bi-cancel me-2"></i>
+                            <h3>Cancelar Reserva</h3>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="text-center">Esta seguro que desea cancelar su reserva? </h5>
+                        <p class="text-center">Si cancela su reserva sera reembolsado el 100% de su dinero.</p>
+                        <br>
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'reservas' %}" type="button" class="btn btn-secondary justify-content-start">Volver</a>
+                                <button type="submit" class="btn btn-danger justify-content-end">Cancelar Reserva</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}

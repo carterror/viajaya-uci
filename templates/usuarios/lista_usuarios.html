@@ -56,11 +56,11 @@
                                 <td>{{ usuario.first_name }}</td>
                                 <td>{{ usuario.username }}</td>
                                 <td>{{ usuario.ci }}</td>
-                                <td>{{ usuario.user }}</td>
+                                <td>{{ usuario.email }}</td>
                                 
 
                                 <td class="w-25">
-                                    <a class="btn btn-primary" href="{% url 'editar_viajero' usuario.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Editar" data-bs-theme="dark"><i class="bi bi-pen"></i></a>
+                                    <a class="btn btn-primary" href="{% url 'editar_usuario' usuario.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Editar" data-bs-theme="dark"><i class="bi bi-pen"></i></a>
                                     <a class="btn btn-danger" href="{% url 'eliminar_usuario' usuario.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Eliminar" data-bs-theme="dark"><i class="bi bi-trash"></i></a>
                                 </td>
                             </tr>

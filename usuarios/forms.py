@@ -18,10 +18,12 @@ class PerfilForm(forms.ModelForm):
                                label="Nombre de Usuario")
     ci = forms.CharField(min_length=11,
                          max_length=11,
-                         widget=forms.NumberInput(attrs={"class": "form-control", "pattern": "^\d{11}$"}),
+                         widget=forms.NumberInput(attrs={"class": "form-control"}),
                          label="Carnet de Identidad"
                          )
-    email = forms.EmailField(disabled=True, widget=forms.EmailInput(attrs={"class": "form-control"}))
+    email = forms.EmailField(disabled=True,
+                             label='Correo'
+                             ,widget=forms.EmailInput(attrs={"class": "form-control"}))
     class Meta:
         model = Usuario
         fields = ["first_name", "username", "ci", "email"]

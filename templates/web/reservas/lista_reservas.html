@@ -11,10 +11,10 @@
       <div class="col-lg-8">
         <div class="card shadow-sm">
           <div class="card-title fw-bold text-center"><h3>Reservas</h3></div>
-          <div class="card-header justify-content-end">
+          {% comment %} <div class="card-header justify-content-end">
               <!-- <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addViajeroModal">Agregar Viajero</a> -->
               <a href="{% url 'buscar' %}" class="btn btn-primary" > Reservar </a>
-          </div>
+          </div> {% endcomment %}
           <div class="card-body">
             <ol class="list-group list-group">
               {% if reservas %}
@@ -23,7 +23,14 @@
                  <div class="ms-2">
                   <div class="d-flex justify-content-between fw-bold">
                     <div class="fw-bold justify-content-start">{{reserva.pasaje.origen.lugar}} - {{reserva.pasaje.destino.lugar}}</div>
-                    <a href="" class="btn btn-danger justify-content-end" >Cancelar</a> 
+                    {% if reserva.estado == "activa" %}
+                    <a href="{% url 'cancelar_reserva' reserva.pk %}" class="btn btn-danger float-end" >Cancelar</a> 
+                    {% elif reserva.estado == "cancelada" %}
+                    <div><span class="badge bg-danger rounded-pill">{{reserva.get_estado}}</span></div>
+                    {% elif reserva.estado == "proxima" or reserva.estado == "realizada" %} 
+                    <div><span class="badge bg-primary rounded-pill">{{reserva.get_estado}}</span></div>
+                    {% endif %}
+                    
                   </div>
                     <br>
                     <div class="fw-bold"> {{reserva.viajero.nombre}}</div>
@@ -36,12 +43,6 @@
                     </div>
 
                  </div>
-                 {% comment %} <div class="card-footer d-flex justify-content-between mt-auto">
-                      <!-- <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#editViajeroModal" data-bs-id="{{viajero.pk}}"><i class="bi bi-pen"></i></a>
-                      <a class="btn btn-danger" href="#" data-bs-toggle="modal" data-bs-target="#deleteViajeroModal" data-bs-id="{{viajero.pk}}"><i class="bi bi-trash"></i></a> -->
-                      <a class="btn btn-primary" href="{% url 'edit_viajero' viajero.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Editar" data-bs-theme="dark"><i class="bi bi-pen"></i></a>
-                      <a class="btn btn-danger" href="{% url 'delete_viajero' viajero.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Eliminar" data-bs-theme="dark"><i class="bi bi-trash"></i></a>
-                 </div> {% endcomment %}
                 </li>
               {% endfor %}
               {% else %}

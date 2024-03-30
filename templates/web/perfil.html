@@ -10,7 +10,7 @@
     <div class="row justify-content-center mt-4">
       <div class="col-lg-8">
         <div class="card shadow-sm">
-          <div class="card-title fw-bold text-center"><h3>Perfil de Usuario</h3></div>
+          <div class="card-title fw-bold text-center"><h3>Modificar Usuario</h3></div>
           {% comment %} <div class="card-header justify-content-end">
             <h3>{{user.first_name}} {{user.last_name}}</h3>
           </div> {% endcomment %}
@@ -20,8 +20,9 @@
     
               {{ form.as_p }}
               
-              <div class="modal-footer justify-content-center">
-                <button type="submit" class="btn btn-primary" id="btnGuardar">Guardar Cambios</button>
+              <div class="modal-footer justify-content-between">
+                <a class="btn btn-secondary justify-content-start" href="{% url 'home' %}">Cancelar</a>
+                <button type="submit" class="btn btn-primary justify-content-end" id="btnGuardar">Modificar</button>
               </div>
           </form>
           </div>
@@ -49,8 +50,18 @@
       }
   
       inputs.forEach(function(input) {
-          input.addEventListener('change', function() {
+          // Utiliza el evento 'input' para capturar todos los cambios, incluyendo espacios
+          input.addEventListener('input', function() {
               habilitarBoton();
+          });
+  
+          // Asegúrate de que el botón se deshabilite cuando el campo pierda el foco
+          input.addEventListener('blur', function() {
+              // Aquí puedes agregar lógica adicional si es necesario
+              // Por ejemplo, verificar si el campo está vacío y deshabilitar el botón
+              if (input.value.trim() === '') {
+                  deshabilitarBoton();
+              }
           });
       });
   
@@ -60,6 +71,7 @@
   
       deshabilitarBoton();
   });
-  </script>  
+  </script>
+    
 
 {% endblock %}

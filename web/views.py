@@ -4,13 +4,14 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from reservas.models import ruta, viajero, viajero, agencia, pasaje
 from django.db.models.functions import TruncDate
-from django.views.generic import ListView, FormView, TemplateView
+from django.views.generic import ListView, FormView, TemplateView, UpdateView
 from reservas.models import Agencia, Ruta, Pasaje, Viaje, Viajero
 from django.db.models import Count, F
 from django.utils import timezone
 from .forms import ViajerosForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 def home(request):
@@ -107,3 +108,17 @@ class ReservasListView(LoginRequiredMixin, ListView):
     model = Viaje
     context_object_name = "reservas"
     template_name = "web/reservas/lista_reservas.html"
+    
+        
+class CancelarReservaView(LoginRequiredMixin, UpdateView):
+    model = Viaje
+    fields = ['estado']
+    template_name = 'web/reservas/cancelar_reserva.html'
+    success_url = reverse_lazy('reservas')
+    
+    def post(self, request, *args, **kwargs):
+        viaje = Viaje.objects.get(pk=self.kwargs.get('pk'))
+        viaje.estado = 'cancelada'
+        viaje.save()
+        return redirect('reservas')
+    

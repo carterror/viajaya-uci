@@ -8,6 +8,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from usuarios.models import Usuario
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from usuarios.forms import PerfilForm
 
 class UsuarioListView(LoginRequiredMixin, UserPassesTestMixin,ListView):
     model = Usuario
@@ -20,6 +21,7 @@ class UsuarioListView(LoginRequiredMixin, UserPassesTestMixin,ListView):
         if ids:
             ids = [int(id) for id in ids]
             Usuario.objects.filter(id__in=ids).delete()
+            messages.success(self.request, 'Acción realizada con éxito.')
             return JsonResponse({'status': 'success'})
         else:
             return JsonResponse({'status': 'error', 'message': 'No se proporcionaron IDs'})
@@ -27,44 +29,20 @@ class UsuarioListView(LoginRequiredMixin, UserPassesTestMixin,ListView):
     def test_func(self):
         return self.request.user.is_staff
 
-# class ViajeroCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-#     model = Viajero
-#     form_class = ViajeroForm
-#     template_name = 'viajeros/agregar_viajero.html'
-#     success_url = reverse_lazy('lista_viajeros')
-    
-#     def form_valid(self, form):
-#         form.instance.user = self.request.user
-#         response = super().form_valid(form)
-#         messages.success(self.request, 'Acción realizada con éxito.')
-#         return response
-    
-#     def get_form_kwargs(self):
-#         kwargs = super().get_form_kwargs()
-#         kwargs.update({'request': self.request})
-#         return kwargs
-    
-#     def test_func(self):
-#         return self.request.user.is_staff
 
-# class ViajeroUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-#     model = Viajero
-#     form_class = ViajeroForm
-#     template_name = 'viajeros/editar_viajero.html'
-#     success_url = reverse_lazy('lista_viajeros')
+class UsuarioUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Usuario
+    form_class = PerfilForm
+    template_name = 'usuarios/editar_usuario.html'
+    success_url = reverse_lazy('lista_viajeros')
         
-#     def form_valid(self, form):
-#         response = super().form_valid(form)
-#         messages.success(self.request, 'Acción realizada con éxito.')
-#         return response
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'Acción realizada con éxito.')
+        return response
     
-#     def get_form_kwargs(self):
-#         kwargs = super().get_form_kwargs()
-#         kwargs.update({'request': self.request})
-#         return kwargs
-    
-#     def test_func(self):
-#         return self.request.user.is_staff
+    def test_func(self):
+        return self.request.user.is_staff
     
 class UsuarioDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Usuario

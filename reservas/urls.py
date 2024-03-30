@@ -55,7 +55,7 @@ urlpatterns = [
     
     path('usuarios/', usuarioView.UsuarioListView.as_view(), name='lista_usuarios'),
     # path('usuarios/agregar/', noticiasView.NoticiaCreateView.as_view(), name='agregar_noticia'),
-    # path('usuarios/<int:pk>/editar/', noticiasView.NoticiaUpdateView.as_view(), name='editar_noticia'),
+    path('usuarios/<int:pk>/editar/', usuarioView.UsuarioUpdateView.as_view(), name='editar_usuario'),
     path('usuarios/<int:pk>/eliminar/', usuarioView.UsuarioDeleteView.as_view(), name='eliminar_usuario'),
     
 ]

@@ -12,7 +12,6 @@
         <div class="card shadow-sm">
           <div class="card-title fw-bold text-center"><h3>Viajeros</h3></div>
           <div class="card-header justify-content-end">
-              <!-- <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addViajeroModal">Agregar Viajero</a> -->
               <a href="{% url 'create_viajero' %}" class="btn btn-primary" ><i class="bi bi-plus"></i> Agregar Viajero</a>
           </div>
           <div class="card-body">
@@ -25,12 +24,12 @@
                     <br>
                     <div class="fw-bold"> CI: {{viajero.ci}}</div>
                  </div>
+                 {% if user.ci != viajero.ci %}
                  <div class="card-footer d-flex justify-content-between mt-auto">
-                      <!-- <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#editViajeroModal" data-bs-id="{{viajero.pk}}"><i class="bi bi-pen"></i></a>
-                      <a class="btn btn-danger" href="#" data-bs-toggle="modal" data-bs-target="#deleteViajeroModal" data-bs-id="{{viajero.pk}}"><i class="bi bi-trash"></i></a> -->
                       <a class="btn btn-primary" href="{% url 'edit_viajero' viajero.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Editar" data-bs-theme="dark"><i class="bi bi-pen"></i></a>
                       <a class="btn btn-danger" href="{% url 'delete_viajero' viajero.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Eliminar" data-bs-theme="dark"><i class="bi bi-trash"></i></a>
                  </div>
+                 {% endif %}
                 </li>
               {% endfor %}
               {% else %}
@@ -42,74 +41,6 @@
       </div>
     </div>
  </div>
-</div>
-
-<!-- Modal para agregar viajero -->
-<div class="modal fade" id="addViajeroModal" tabindex="-1" aria-labelledby="addViajeroModalLabel" aria-hidden="true">
- <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addViajeroModalLabel">Agregar Viajero</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <!-- Aquí irá el formulario para agregar un viajero -->
-        <form method="post">
-          {% csrf_token %}
-
-          {{ form.as_p }}
-
-      </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="submit" class="btn btn-primary">Guardar</button>
-      </div>
-    </div>
- </div>
-</div>
-
-<!-- Modal para editar viajero -->
-<div class="modal fade" id="editViajeroModal" tabindex="-1" aria-labelledby="editViajeroModalLabel" aria-hidden="true">
- <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editViajeroModalLabel">Editar Viajero</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <!-- Aquí irá el formulario para editar un viajero -->
-        <form method="post">
-          {% csrf_token %}
-          {{ form.as_p }}
-      </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Guardar cambios</button>
-      </div>
-    </div>
- </div>
-</div> 
-
-<!-- Modal para eliminar viajero -->
-<div class="modal fade" id="deleteViajeroModal" tabindex="-1" aria-labelledby="deleteViajeroModalLabel" aria-hidden="true">
- <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteViajeroModalLabel">Eliminar Viajero</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ¿Estás seguro de que quieres eliminar este viajero?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger">Eliminar</button>
-      </div>
-    </div>
- </div>
- 
 </div>
 
 {% endblock %}

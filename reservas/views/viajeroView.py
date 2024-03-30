@@ -21,6 +21,7 @@ class ViajeroListView(LoginRequiredMixin, UserPassesTestMixin,ListView):
         if ids:
             ids = [int(id) for id in ids]
             Viajero.objects.filter(id__in=ids).delete()
+            messages.success(self.request, 'Acción realizada con éxito.')
             return JsonResponse({'status': 'success'})
         else:
             return JsonResponse({'status': 'error', 'message': 'No se proporcionaron IDs'})
