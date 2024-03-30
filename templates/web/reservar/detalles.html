@@ -1,0 +1,108 @@
+
+{% extends 'web/layout.html' %}
+{% load static %}
+{% block extra_head %}
+{% endblock %}
+
+
+ {% block content %}
+
+  <div class="album py-5 bg-body-tertiary">
+    <div class="container mt-4">
+
+      <div class="row justify-content-center mt-8">
+        <div class="col-lg-8">
+          <div class="card shadow-sm justify-content-center">
+            <div class="card-header text-center"><h3>Detalles de la Reserva</h3></div>
+            <div class="card-body">
+              {% if pasaje %}
+              
+              <div class="ms-2 me-auto">
+                <div class="d-flex justify-content-between fw-bold">
+                    <div>Detalles</div>
+                    <div><span class="badge bg-primary rounded-pill">{{pasaje.tipo}}</span></div> 
+                </div>
+                <br>
+                
+                <div class="row justify-content-between mt-2 me-2 full-width">
+
+                  <p class="ms-2"><b>Origen:</b> {{ pasaje.origen.lugar }}</p>
+                  <p class="ms-2"><b>Destino:</b> {{ pasaje.destino.lugar }}</p>
+                  <p class="ms-2"><b>Fecha:</b> {{ pasaje.fecha }}</p>
+                  <p class="ms-2"><b>Precio:</b> $ {{ total_pagar }}</p>
+                  
+                </div>
+                <div class="justify-content-end mb-2">
+                    <div class="d-flex justify-content-end">
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#qrModal">Pagar Reserva</a>
+                    </div>
+                </div>
+              <div class="card-footer">
+                <div class="d-flex justify-content-between fw-bold">
+                    <div>Viajeros</div>
+                    <div>Precio</div> 
+                </div>
+                {% for viajero in viajeros %}
+                    <div class="d-flex justify-content-between">
+                        <div class="ms-2">{{ viajero }}</div>
+                        <div>$ {{pasaje.precio}}</div> 
+                    </div>
+                {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="qrModal" tabindex="-1" aria-labelledby="qrModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="qrModalLabel">Verificar Pago</h5>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            <div class="modal-body justify-content-center">
+                <p>Escanea el siguiente código QR para efectuar su pago:</p>
+                <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+                  <canvas id="qrcode"></canvas>
+                </div>
+                <p>Una vez que haya pagado, por favor, haga clic en el botón de verificar pago para notificarnos y completar el proceso de reservación.</p>
+               </div>
+         </div>
+         <div class="modal-footer">
+          <form action="" method="post">
+            {% csrf_token %}
+           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+           <button type="sumbit" class="btn btn-primary">Verificar Pago</button>
+          </form>
+         </div>
+       </div>
+    </div>
+   </div>
+
+  {% endblock %}
+
+{% block extra_js %}
+<script src="{% static '/assets/js/qrious.min.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var data = "https://transfermovil.app/action?id_transaccion=VIAJAYA-29900290&importe=" + "{{total_pagar}}".replace(',', '.') + "&moneda=CUP&numero_proveedor=28222"; // Reemplaza esto con el texto o URL que desees codificar
+  var qr = new QRious({
+        element: document.getElementById('qrcode'),
+        value: data,
+        size: 200, // Tamaño del código QR
+        level: 'H', // Nivel de corrección de errores
+        background: '#ffffff', // Color de fondo
+        foreground: '#000000' // Color de los módulos oscuros
+    });
+});
+</script>
+
+{% endblock %}
+
+
+
+

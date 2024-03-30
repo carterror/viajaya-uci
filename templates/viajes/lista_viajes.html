@@ -1,0 +1,82 @@
+{% extends 'layout.html' %}
+{% load widget_tweaks %}
+{% block extra_head %}
+<style>
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="pagetitle">
+    <h1>Viajes</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Panel de Control</a></li>
+            <li class="breadcrumb-item active">Viajes</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section dashboard">
+    <div class="row">
+        <div class="card">
+
+            <div class="card-body">
+                <div class="card-title">
+                    {% csrf_token %}
+                    Lista de Viajes
+                    <a class="btn btn-primary float-end " href="{% url 'agregar_viaje' %}">Registrar</a>
+                    <button type="button" id="eliminarSeleccionados" class="btn btn-danger float-end">Eliminar</button>
+                </div>
+
+                <!-- Table with stripped rows -->
+                <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
+                    
+                    <div class="datatable-container overflow-auto">
+                        
+                        <table id="miTabla" class="table datatable " data-bs-theme="dark">
+                            <thead>
+                            <tr>
+                                <th data-sortable="false"><input type="checkbox" id="selectAll"></th>
+                                <th> Pasaje</th>
+                                <th> Fecha</th>
+                                <th> Viajero </th>
+                                <th> Usuario </th>
+                                <th data-sortable="false" data-searchable="false">Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for viaje in viajes %}
+
+
+                            <tr data-index="0">
+                                <td><input type="checkbox" class="rowCheckbox" data-id="{{ viaje.pk }}"></td>
+                                <td>{{ viaje.pasaje.origen }} - {{ viaje.pasaje.destino }}</td>
+                                <td>{{ viaje.pasaje.fecha }}</td>
+                                <td>{{ viaje.viajero.nombre }}</td>
+                                <td>{{ viaje.user.username }}</td>
+                                
+
+                                <td class="w-25">
+                                    <a class="btn btn-primary" href="{% url 'editar_viaje' viaje.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Editar" data-bs-theme="dark"><i class="bi bi-pen"></i></a>
+                                    <a class="btn btn-danger" href="{% url 'eliminar_viaje' viaje.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Eliminar" data-bs-theme="dark"><i class="bi bi-trash"></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- End Table with stripped rows -->
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}

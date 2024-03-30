@@ -1,18 +1,34 @@
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from reservas.models import Agencia
-from reservas.forms import AgenciaForm
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from reservas.models.agencia import Agencia
+from reservas.forms.agenciaForm import AgenciaForm
 
 
-class AgenciaListView(LoginRequiredMixin, ListView):
+class AgenciaListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Agencia
     template_name = "agencias/lista_agencias.html"
     context_object_name = "agencias"
     
-class AgenciaCreateView(LoginRequiredMixin, CreateView):
+    @csrf_exempt
+    def post(self, request, *args, **kwargs):
+        ids = self.request.POST.getlist('ids[]')
+        if ids:
+            ids = [int(id) for id in ids]
+            Agencia.objects.filter(id__in=ids).delete()
+            messages.success(self.request, 'Acción realizada con éxito.')
+            return JsonResponse({'status': 'success'})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'No se proporcionaron IDs'})
+    
+    def test_func(self):
+        return self.request.user.is_staff
+    
+class AgenciaCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     # permission_required = ('catalog.can_mark_returned', 'catalog.can_edit')
     model = Agencia
     form_class = AgenciaForm
@@ -20,12 +36,14 @@ class AgenciaCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("lista_agencias")
 
     def form_valid(self, form):
-        print('Validando Form')
         response = super().form_valid(form)
         messages.success(self.request, 'Acción realizada con éxito.')
         return response
     
-class AgenciaUpdateView(LoginRequiredMixin, UpdateView):
+    def test_func(self):
+        return self.request.user.is_staff
+    
+class AgenciaUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Agencia
     form_class = AgenciaForm
     template_name = 'agencias/editar_agencia.html'
@@ -38,8 +56,11 @@ class AgenciaUpdateView(LoginRequiredMixin, UpdateView):
         response = super().form_valid(form)
         messages.success(self.request, 'Acción realizada con éxito.')
         return response
+    
+    def test_func(self):
+        return self.request.user.is_staff
 
-class AgenciaDeleteView(LoginRequiredMixin, DeleteView):
+class AgenciaDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Agencia
     template_name = 'agencias/eliminar_agencia.html'
     success_url = reverse_lazy('lista_agencias')
@@ -50,3 +71,6 @@ class AgenciaDeleteView(LoginRequiredMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, 'Acción realizada con éxito.')
         return super().delete(request, *args, **kwargs)
+    
+    def test_func(self):
+        return self.request.user.is_staff

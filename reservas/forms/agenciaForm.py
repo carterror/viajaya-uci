@@ -1,14 +1,15 @@
 from django import forms
-from ..models import Agencia
+from ..models.agencia import Agencia
+from django.core.exceptions import ValidationError
 
 class AgenciaForm(forms.ModelForm):
     
     provincias = (
-        ('La habana', 'La Habana'),
+        ('La Habana', 'La Habana'),
         ('Granma', 'Granma'),
         ('Las Tunas', 'Las Tunas'),
         ('Villa Clara', 'Villa Clara'),
-        ('Holguin', 'Holgin'),
+        ('Holguin', 'Holguin'),
         ('Camaguey', 'Camaguey'),
         ('Santiago de Cuba', 'Santiago de Cuba'),
         
@@ -22,3 +23,18 @@ class AgenciaForm(forms.ModelForm):
     class Meta:
         model = Agencia
         fields = ['nombre', 'provincia', 'telefono', 'direccion']
+        
+    def clean_nombre(self):
+        data = self.cleaned_data["nombre"]
+        if not data[0].isupper():
+            raise ValidationError("Dato incorrecto.")
+        
+        return data
+    
+    def clean_telefono(self):
+        data: str = self.cleaned_data["telefono"]
+        if not data.isdigit() or 8 > len(data) or len(data) > 12:
+            raise ValidationError("Dato incorrecto.")
+        return data
+    
+    

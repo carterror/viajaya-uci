@@ -1239,3 +1239,9 @@ h6 {
   color: #ccc;
 }
 
+
+.container-custom {
+  background-color: #131a20; 
+  border-radius: 15px 15px 0 0; 
+  overflow: hidden; 
+}

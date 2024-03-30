@@ -7,22 +7,21 @@
 {% block content %}
 
 <div class="pagetitle">
-    <h1>Dashboard</h1>
+    <h1>Modificar Viajero</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Panel de Control</a></li>
             <li class="breadcrumb-item"><a href="{% url 'lista_viajeros' %}">Viajeros</a></li>
-            <li class="breadcrumb-item active">Editar</li>
+            <li class="breadcrumb-item active">Modificar</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
 
 <section class="section dashboard">
     <div class="row">
-        <!-- templates/gestion_impresoras/agregar_impresora.html -->
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Editar Viajero</h5>
+                <h5 class="card-title">Modificar Viajero</h5>
 
                 <!-- General Form Elements -->
                 <form method="post">
@@ -55,7 +54,7 @@
                             <a class="btn btn-secondary" href="{% url 'lista_viajeros' %}">Cancelar</a>
                         </div>
                         <div class="col-sm-6">
-                            <button type="submit" class="btn btn-primary float-end">Editar Viajero</button>
+                            <button type="submit" class="btn btn-primary float-end">Registrar</button>
                         </div>
                     </div>
 

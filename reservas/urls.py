@@ -18,28 +18,44 @@ Including another URLconf
 from django.contrib.auth import views as auth_views
 from django.urls import path, include
 
-from reservas.views import *
+from reservas.views import agenciaView, home, noticiasView, pasajeView, rutaView, viajeroView, viajeView, usuarioView
 
 urlpatterns = [
-    path('', home, name='dashboard'),
+    path('', home.HomeView.as_view(), name='dashboard'),
     
-    path('rutas/', RutaListView.as_view(), name='lista_rutas'),
-    path('rutas/agregar/', RutaCreateView.as_view(), name='agregar_ruta'),
-    path('rutas/<int:pk>/editar/', RutaUpdateView.as_view(), name='editar_ruta'),
-    path('rutas/<int:pk>/eliminar/', RutaDeleteView.as_view(), name='eliminar_ruta'),
+    path('rutas/', rutaView.RutaListView.as_view(), name='lista_rutas'),
+    path('rutas/agregar/', rutaView.RutaCreateView.as_view(), name='agregar_ruta'),
+    path('rutas/<int:pk>/editar/', rutaView.RutaUpdateView.as_view(), name='editar_ruta'),
+    path('rutas/<int:pk>/eliminar/', rutaView.RutaDeleteView.as_view(), name='eliminar_ruta'),
 
-    path('viajeros/', ViajeroListView.as_view(), name='lista_viajeros'),
-    path('viajeros/agregar/', ViajeroCreateView.as_view(), name='agregar_viajero'),
-    path('viajeros/<int:pk>/editar/', ViajeroUpdateView.as_view(), name='editar_viajero'),
-    path('viajeros/<int:pk>/eliminar/', ViajeroDeleteView.as_view(), name='eliminar_viajero'),
+    path('viajeros/', viajeroView.ViajeroListView.as_view(), name='lista_viajeros'),
+    path('viajeros/agregar/', viajeroView.ViajeroCreateView.as_view(), name='agregar_viajero'),
+    path('viajeros/<int:pk>/editar/', viajeroView.ViajeroUpdateView.as_view(), name='editar_viajero'),
+    path('viajeros/<int:pk>/eliminar/', viajeroView.ViajeroDeleteView.as_view(), name='eliminar_viajero'),
 
-    path('agencias/', AgenciaListView.as_view(), name='lista_agencias'),
-    path('agencias/agregar/', AgenciaCreateView.as_view(), name='agregar_agencia'),
-    path('agencias/<int:pk>/editar/', AgenciaUpdateView.as_view(), name='editar_agencia'),
-    path('agencias/<int:pk>/eliminar/', AgenciaDeleteView.as_view(), name='eliminar_agencia'),
+    path('agencias/', agenciaView.AgenciaListView.as_view(), name='lista_agencias'),
+    path('agencias/agregar/', agenciaView.AgenciaCreateView.as_view(), name='agregar_agencia'),
+    path('agencias/<int:pk>/editar/', agenciaView.AgenciaUpdateView.as_view(), name='editar_agencia'),
+    path('agencias/<int:pk>/eliminar/', agenciaView.AgenciaDeleteView.as_view(), name='eliminar_agencia'),
     
-    path('pasajes/', PasajeListView.as_view(), name='lista_pasajes'),
-    path('pasajes/agregar/', PasajeCreateView.as_view(), name='agregar_pasaje'),
-    path('pasajes/<int:pk>/editar/', PasajeUpdateView.as_view(), name='editar_pasaje'),
-    path('pasajes/<int:pk>/eliminar/', PasajeDeleteView.as_view(), name='eliminar_pasaje'),
+    path('pasajes/', pasajeView.PasajeListView.as_view(), name='lista_pasajes'),
+    path('pasajes/agregar/', pasajeView.PasajeCreateView.as_view(), name='agregar_pasaje'),
+    path('pasajes/<int:pk>/editar/', pasajeView.PasajeUpdateView.as_view(), name='editar_pasaje'),
+    path('pasajes/<int:pk>/eliminar/', pasajeView.PasajeDeleteView.as_view(), name='eliminar_pasaje'),
+    
+    path('viajes/', viajeView.ViajeListView.as_view(), name='lista_viajes'),
+    path('viajes/agregar/', viajeView.ViajeCreateView.as_view(), name='agregar_viaje'),
+    path('viajes/<int:pk>/editar/', viajeView.ViajeUpdateView.as_view(), name='editar_viaje'),
+    path('viajes/<int:pk>/eliminar/', viajeView.ViajeDeleteView.as_view(), name='eliminar_viaje'),
+    
+    path('noticias/', noticiasView.NoticiaListView.as_view(), name='lista_noticias'),
+    path('noticias/agregar/', noticiasView.NoticiaCreateView.as_view(), name='agregar_noticia'),
+    path('noticias/<int:pk>/editar/', noticiasView.NoticiaUpdateView.as_view(), name='editar_noticia'),
+    path('noticias/<int:pk>/eliminar/', noticiasView.NoticiaDeleteView.as_view(), name='eliminar_noticia'),
+    
+    path('usuarios/', usuarioView.UsuarioListView.as_view(), name='lista_usuarios'),
+    # path('usuarios/agregar/', noticiasView.NoticiaCreateView.as_view(), name='agregar_noticia'),
+    path('usuarios/<int:pk>/editar/', usuarioView.UsuarioUpdateView.as_view(), name='editar_usuario'),
+    path('usuarios/<int:pk>/eliminar/', usuarioView.UsuarioDeleteView.as_view(), name='eliminar_usuario'),
+    
 ]

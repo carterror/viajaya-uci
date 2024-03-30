@@ -13,7 +13,7 @@
     <h1>Pasajes</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Panel de Control</a></li>
             <li class="breadcrumb-item active">Pasajes</li>
         </ol>
     </nav>
@@ -25,16 +25,20 @@
 
             <div class="card-body">
                 <div class="card-title">
+                    {% csrf_token %}
                     Lista de Pasajes
-                    <a class="btn btn-outline-primary float-end " href="{% url 'agregar_pasaje' %}">Agregar Pasajes</a>
+                    <a class="btn btn-primary float-end " href="{% url 'agregar_pasaje' %}">Registrar</a>
+                    <button type="button" id="eliminarSeleccionados" class="btn btn-danger float-end">Eliminar</button>
                 </div>
 
                 <!-- Table with stripped rows -->
                 <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-columns">
                     <div class="datatable-container overflow-auto">
+                        
                         <table class="table datatable " data-bs-theme="dark">
                             <thead>
                             <tr>
+                                <th data-sortable="false"><input type="checkbox" id="selectAll"></th>
                                 <th> Origen </th>
                                 <th> Destino </th>
                                 <th> Precio </th>
@@ -49,6 +53,7 @@
 
 
                             <tr data-index="0">
+                                <td><input type="checkbox" class="rowCheckbox" data-id="{{ pasaje.pk }}"></td>
                                 <td>{{ pasaje.origen }}</td>
                                 <td>{{ pasaje.destino }}</td>
                                 <td>{{ pasaje.precio }}</td>

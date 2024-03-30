@@ -7,22 +7,21 @@
 {% block content %}
 
 <div class="pagetitle">
-    <h1>Agregar Ruta</h1>
+    <h1>Registrar Ruta</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Panel de Control</a></li>
             <li class="breadcrumb-item"><a href="{% url 'lista_rutas' %}">Rutas</a></li>
-            <li class="breadcrumb-item active">Agregar</li>
+            <li class="breadcrumb-item active">Registrar</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
 
 <section class="section dashboard">
     <div class="row">
-        <!-- templates/gestion_impresoras/agregar_impresora.html -->
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Agregar Ruta</h5>
+                <h5 class="card-title">Registrar Ruta</h5>
 
                 <!-- General Form Elements -->
                 <form method="post">
@@ -55,7 +54,7 @@
                             <a class="btn btn-secondary" href="{% url 'lista_rutas' %}">Cancelar</a>
                         </div>
                         <div class="col-sm-6">
-                            <button type="submit" class="btn btn-primary float-end">Agregar Ruta</button>
+                            <button type="submit" class="btn btn-primary float-end">Registrar</button>
                         </div>
                     </div>
 

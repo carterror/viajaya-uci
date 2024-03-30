@@ -1,0 +1,50 @@
+{% extends 'web/layout.html' %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block content %}
+
+<div class="album py-5 bg-body-tertiary">
+ <div class="container">
+    <div class="row justify-content-center mt-4">
+      <div class="col-lg-8">
+        <div class="card shadow-sm">
+          <div class="card-title fw-bold text-center"><h3>Viajeros</h3></div>
+          <div class="card-header justify-content-end">
+              <a href="{% url 'create_viajero' %}" class="btn btn-primary" ><i class="bi bi-plus"></i> Agregar Viajero</a>
+          </div>
+          <div class="card-body">
+            <ol class="list-group list-group-numbered">
+              {% if viajeros %}
+              {% for viajero in viajeros %}
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                 <div class="ms-2 me-auto">
+                    <div class="fw-bold">Nombre: {{viajero.nombre}}</div>
+                    <br>
+                    <div class="fw-bold"> CI: {{viajero.ci}}</div>
+                 </div>
+                 {% if user.ci != viajero.ci %}
+                 <div class="card-footer d-flex justify-content-between mt-auto">
+                      <a class="btn btn-primary" href="{% url 'edit_viajero' viajero.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Editar" data-bs-theme="dark"><i class="bi bi-pen"></i></a>
+                      <a class="btn btn-danger" href="{% url 'delete_viajero' viajero.pk %}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Eliminar" data-bs-theme="dark"><i class="bi bi-trash"></i></a>
+                 </div>
+                 {% endif %}
+                </li>
+              {% endfor %}
+              {% else %}
+              <div class="fw-bold"><p>No tienes viajeros guardados!</p></div>
+              {% endif %}
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+ </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}

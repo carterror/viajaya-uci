@@ -8,3 +8,4 @@ class Notice(models.Model):
     descripcion = RichTextField(null=False)
     user = models.ForeignKey(Usuario, null=True, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(null=False, default=False)

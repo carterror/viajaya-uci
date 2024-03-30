@@ -298,27 +298,153 @@
 
   /**
    * Initiate Datatables
+   * 
+   * 
    */
-  const datatables = select('.datatable', true)
-  datatables.forEach(datatable => {
-    new simpleDatatables.DataTable(datatable, {
-      perPageSelect: [5, 10, 15, ["All", -1]],
-      columns: [{
-          select: 2,
-          sortSequence: ["desc", "asc"]
-        },
-        {
-          select: 3,
-          sortSequence: ["desc"]
-        },
-        {
-          select: 4,
-          cellClass: "green",
-          headerClass: "red"
+
+
+  $(document).ready(function() {
+      // Habilitar el botón si hay checkboxes seleccionados al cargar la página
+      if ($('.rowCheckbox:checked').length > 0) {
+          $('#eliminarSeleccionados').prop('disabled', false);
+      }
+
+      // Escuchar los eventos de cambio en los checkboxes
+      $('.rowCheckbox').change(function() {
+          // Verificar si hay algún checkbox seleccionado
+          var haySeleccionados = $('.rowCheckbox:checked').length > 0;
+
+          // Habilitar o deshabilitar el botón según corresponda
+          $('#eliminarSeleccionados').prop('disabled', !haySeleccionados);
+      });
+
+      // El resto de tu código...
+  });
+
+
+  $(document).ready(function() {
+    var table = $('.datatable').DataTable({
+        "paging": true,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todo"]],
+        "lengthChange": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": true,
+        "responsive": true,
+        "select": false,
+        "fixedColumns": true,
+        "fixedHeader": true,
+        "language": {
+            "decimal": "",
+            "emptyTable": "No hay información",
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+            "infoEmpty": "Mostrando 0 a 0 de 0 entradas",
+            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ entradas",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "Sin resultados encontrados",
+            
         }
-      ]
+    },
+    );
+
+    // Seleccionar todos los checkboxes
+    $('#selectAll').click(function() {
+        $('.rowCheckbox').prop('checked', this.checked);
     });
-  })
+
+    // Seleccionar checkboxes individuales
+    $('.rowCheckbox').click(function() {
+        if ($('.rowCheckbox:checked').length == $('.rowCheckbox').length) {
+            $('#selectAll').prop('checked', true);
+        } else {
+            $('#selectAll').prop('checked', false);
+        }
+    });
+
+    
+
+    // Botón para eliminar seleccionados
+    $(document).ready(function() {
+      $('#eliminarSeleccionados').click(function() {
+          var ids = [];
+          $('.rowCheckbox:checked').each(function() {
+              ids.push($(this).data('id'));
+          });
+          if (ids.length > 0) {
+              var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+              var currentUrl = window.location.href;
+  
+              $.ajax({
+                  url: currentUrl,
+                  method: 'POST',
+                  data: {
+                      'ids': ids,
+                      'csrfmiddlewaretoken': csrfToken,
+                      'action': 'delete'
+                  },
+                  success: function(response) {
+                      if (response.status === 'success') {
+                          location.reload();
+                      } else {
+                          alert(response.message);
+                      }
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                      console.error(textStatus, errorThrown);
+                  }
+              });
+          } else {
+            alert('Por favor, selecciona los elementos para eliminar.');
+        }
+      });
+  });
+
+//   $(document).ready(function() {
+//     $('#editarSeleccionado').click(function() {
+//         var ids = [];
+//         $('.rowCheckbox:checked').each(function() {
+//             ids.push($(this).data('id'));
+//         });
+//         if (ids.length === 1) {
+//             var urlEdicion = ids[0] + '/editar/';
+//             window.location.href = urlEdicion;
+//         }else if(ids.length === 0) {
+//             alert('Por favor, selecciona un elemento para editar.');
+//         } else {
+//           alert('Por favor, selecciona solo un elemento para editar.');
+//       }
+//     });
+// });
+  
+  
+});
+
+  // const datatables = select('.datatable', true)
+  // datatables.forEach(datatable => {
+  //   new simpleDatatables.DataTable(datatable, {
+  //     perPageSelect: [5, 10, 15, ["All", -1]],
+  //     columns: [{
+  //         select: 2,
+  //         sortSequence: ["desc", "asc"]
+  //       },
+  //       {
+  //         select: 3,
+  //         sortSequence: ["desc"]
+  //       },
+  //       {
+  //         select: 4,
+  //         cellClass: "green",
+  //         headerClass: "red"
+  //       }
+  //     ]
+  //   });
+  // })
 
   /**
    * Autoresize echart charts

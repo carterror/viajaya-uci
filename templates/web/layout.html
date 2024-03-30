@@ -23,6 +23,7 @@
 
             background-clip: content-box;
         }
+        
     </style>
 </head>
 
@@ -45,15 +46,15 @@
                                 href="{% url 'home' %}">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == '/locales' %}active{% endif %}"
-                                href="{% url 'home' %}">Agencias </a>
+                            <a class="nav-link {% if request.path == '/agencias' %}active{% endif %}"
+                                href="{% url 'list_agencias' %}">Agencias </a>
                         </li>
 
                     </ul>
                     <div class="d-lg-flex col-lg-3 justify-content-lg-end ">
                         <ul class="navbar-nav col-lg-6 justify-content-lg-center ">
                             {% if user.is_authenticated %}
-                            <li class="nav-item me-2">
+                            <li class="nav-item me-2 mb-1">
                                 <a class="btn btn-primary" href="{% url 'buscar' %}">Reservar</a>
                             </li>
                             
@@ -73,9 +74,9 @@
                                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                                     aria-expanded="false">{{user}}</a>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="#">Perfil</a></li>
-                                    <li><a class="dropdown-item" href="#">Pasajeros</a></li>
-                                    <li><a class="dropdown-item" href="#">Reservas</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'perfil' %}">Perfil</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'list_viajeros' %}">Viajeros</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'reservas' %}">Reservas</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
@@ -117,13 +118,15 @@
     <footer class="text-body-secondary py-2">
         <div class="container">
             <p class="float-end mb-1">
-                <a href="#">Back to top</a>
+                <a href="#">Ir al principio</a>
             </p>
-            <p class="mb-1"> &copy; Copyright <strong><span>3rroR</span></strong>. All Rights Reserved</p>
+            <p class="mb-1"> &copy; Derechos de Autor <strong><span>3rroR</span></strong>. Todos los derechos reservados</p>
 
         </div>
     </footer>
     <script src="{% static '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- <script src="{% static '/assets/vendor/bootstrap/js/bootstrap.min.js' %}"></script> -->
+    <script src="{% static '/assets/js/jquery-3.7.1.min.js' %}"></script>
     <!-- Template Main JS File -->
 
     {% block extra_js %}{% endblock %}

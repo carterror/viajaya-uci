@@ -1,0 +1,97 @@
+{% extends 'web/layout.html' %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block content %}
+
+<div class="album py-5 bg-body-tertiary">
+ <div class="container">
+    <div class="row justify-content-center mt-4">
+      <div class="col-lg-8">
+        <div class="card shadow-sm">
+          <div class="card-title fw-bold text-center"><h3>Agregar Viajero</h3></div>
+          <div class="card-body">
+            <form action="" method="post" class="row" id="form">
+              {% csrf_token %}
+              
+              {% for field in form %}
+                <div class="mb-3">
+                 {{ field.errors }}
+                 {{ field.label_tag }} {{ field }}
+                </div>
+              {% endfor %}
+              {{ form.non_field_errors }}
+              <div class="row mt-4">
+                <div class="col-sm-6">
+                    <a class="btn btn-secondary" href="{% url 'list_viajeros' %}">Cancelar</a>
+                </div>
+                <div class="col-sm-6">
+                    <button type="submit" class="btn btn-primary float-end">Agregar Viajero</button>
+                </div>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+ </div>
+</div>
+
+
+{% endblock %}
+
+{% block extra_js %}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var nombreInput = document.getElementById('nombre');
+        var ciInput = document.getElementById('ci');
+    
+        function validarNombre(nombre) {
+            return nombre[0] === nombre[0].toUpperCase();
+        }
+    
+        function validarCI(ci) {
+            return /^\d+$/.test(ci);
+        }
+    
+        function mostrarError(input, mensaje) {
+            var errorDiv = input.parentNode.querySelector('.error-message');
+            if (!errorDiv) {
+                errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                input.parentNode.appendChild(errorDiv);
+            }
+            errorDiv.textContent = mensaje;
+        }
+    
+        function limpiarErrores(input) {
+            var errorDiv = input.parentNode.querySelector('.error-message');
+            if (errorDiv) {
+                errorDiv.remove();
+            }
+        }
+    
+        // Escucha el evento de entrada en los campos de nombre y CI
+        nombreInput.addEventListener('input', function() {
+            if (validarNombre(this.value)) {
+                limpiarErrores(this);
+            } else {
+                mostrarError(this, 'El nombre debe comenzar con una letra mayúscula.');
+            }
+        });
+    
+        ciInput.addEventListener('input', function() {
+            if (validarCI(this.value)) {
+                limpiarErrores(this);
+            } else {
+                mostrarError(this, 'El Carnet de Identidad debe contener solo números.');
+            }
+        });
+    });
+    </script>
+    
+    
+
+{% endblock %}

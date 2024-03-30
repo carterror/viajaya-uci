@@ -1,0 +1,63 @@
+{% extends 'web/layout.html' %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block content %}
+
+<div class="album py-5 bg-body-tertiary">
+ <div class="container">
+    <div class="row justify-content-center mt-4">
+      <div class="col-lg-8">
+        <div class="card shadow-sm">
+          <div class="card-title fw-bold text-center"><h3>Reservas</h3></div>
+          {% comment %} <div class="card-header justify-content-end">
+              <!-- <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addViajeroModal">Agregar Viajero</a> -->
+              <a href="{% url 'buscar' %}" class="btn btn-primary" > Reservar </a>
+          </div> {% endcomment %}
+          <div class="card-body">
+            <ol class="list-group list-group">
+              {% if reservas %}
+              {% for reserva in reservas %}
+                <li class="list-group-item">
+                 <div class="ms-2">
+                  <div class="d-flex justify-content-between fw-bold">
+                    <div class="fw-bold justify-content-start">{{reserva.pasaje.origen.lugar}} - {{reserva.pasaje.destino.lugar}}</div>
+                    {% if reserva.estado == "activa" %}
+                    <a href="{% url 'cancelar_reserva' reserva.pk %}" class="btn btn-danger float-end" >Cancelar</a> 
+                    {% elif reserva.estado == "cancelada" %}
+                    <div><span class="badge bg-danger rounded-pill">{{reserva.get_estado}}</span></div>
+                    {% elif reserva.estado == "proxima" or reserva.estado == "realizada" %} 
+                    <div><span class="badge bg-primary rounded-pill">{{reserva.get_estado}}</span></div>
+                    {% endif %}
+                    
+                  </div>
+                    <br>
+                    <div class="fw-bold"> {{reserva.viajero.nombre}}</div>
+                    <br>
+                    <div class="fw-bold">{{reserva.pasaje.fecha}}</div>
+                    <br>
+                    <div class="d-flex justify-content-between fw-bold">
+                      <div class="justify-content-start">{{reserva.pasaje.tipo}}</div>
+                      <div class="justify-content-center"> $ {{reserva.pasaje.precio}}</div> 
+                    </div>
+
+                 </div>
+                </li>
+              {% endfor %}
+              {% else %}
+              <div class="fw-bold"><p>No tienes reservas realizadas!</p></div>
+              {% endif %}
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+ </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}

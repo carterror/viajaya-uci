@@ -16,13 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
-from web.views import home, buscar
+from web.views import home, buscar, AgenciaListView, ViajerosCompraView, DetallesCompraView, CompletadoView, ReservasListView, CancelarReservaView
 
 urlpatterns = [
     path('', home, name='home'),
     path('buscar/', buscar, name='buscar'),
-    path('locales/', buscar, name='locales'),
+    path('agencias/', AgenciaListView.as_view(), name='list_agencias'),
+    
+    path('reservar/<int:pk>/viajeros', ViajerosCompraView.as_view(), name='reservar_viajeros'),
+    path('reservar/<int:pk>/detalles', DetallesCompraView.as_view(), name='reservar_detalles'),
+    path('reservar/completado', CompletadoView.as_view(), name='reservar_completado'),
+    
+    path('reservas/', ReservasListView.as_view(), name='reservas'),
+    path('reservas/<int:pk>/cancelar', CancelarReservaView.as_view(), name='cancelar_reserva'),
     
   
 ]
