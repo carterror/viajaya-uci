@@ -1,6 +1,6 @@
 # ViajaYa Sistema de Gestión de Pasajes
 
-Descripción breve del proyecto: Este proyecto es una aplicación web desarrollada con Django que permite a los usuarios realizar [incluir funcionalidades principales].
+“ViajAYA” es una plataforma de gestión y venta de pasajes que optimiza la compra y administración  de  viajes,  proporcionando  una  interfaz  compatible  con  múltiples dispositivos  y  navegadores.  La  funcionalidad  administrativa  incluye  la  gestión  de agencias de viajes, rutas, usuarios y pasajes, mientras que los usuarios pueden registrar cuentas, autenticarse y realizar transacciones seguras. El diseño del sistema prioriza la usabilidad  y  accesibilidad,  incluso  para  usuarios  con  experiencia  limitada  en aplicaciones informáticas.
 
 ## Comenzando
 
