@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'usuarios',
     'reservas',
     'web',
-    
 ]
 
 MIDDLEWARE = [

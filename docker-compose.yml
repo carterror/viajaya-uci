@@ -7,16 +7,18 @@ services:
     restart: always
     build: .
     networks:
-      - db_network
       - web_network
+    volumes:
+      - statics:/app/static 
 
   nginx:
     container_name: nginx
     restart: always
-    image: "nginx:latest"
+    image: "nginx:1.13.9-alpine"
     ports:
       - "127.0.0.1:2828:5085"
     volumes:
+      - statics:/usr/share/nginx/html
       - ./nginx:/etc/nginx/conf.d
     networks:
       - web_network
@@ -24,7 +26,8 @@ services:
       - appseed-app
 
 networks:
-  db_network:
-    external: true
   web_network:
     driver: bridge
+  
+volumes:
+  statics: 
