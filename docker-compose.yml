@@ -5,7 +5,6 @@ services:
   appseed-app:
     container_name: appseed_app
     restart: always
-    env_file: .env
     build: .
     networks:
       - db_network
