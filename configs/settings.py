@@ -100,7 +100,7 @@ DATABASES = {
             'USER': getenv('PGUSER'),
             'PASSWORD': getenv('PGPASSWORD'),
             'HOST': getenv('PGHOST'),
-            'PORT': getenv('PGPORT', 5432),
+            'PORT': getenv('PGPORT', 8000),
             'OPTIONS': {
             'sslmode': 'require',   
             },
