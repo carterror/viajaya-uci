@@ -102,7 +102,7 @@ DATABASES = {
             'HOST': getenv('PGHOST'),
             'PORT': getenv('PGPORT', 5432),
             'OPTIONS': {
-            'sslmode': 'require',
+            'sslmode': 'require',   
             },
         },
     'test': {
