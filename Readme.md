@@ -1,5 +1,5 @@
 # ViajaYa Sistema de Gestión de Pasajes
-“ViajAYA” es una plataforma de gestión y venta de pasajes que optimiza la compra y administración  de  viajes,  proporcionando  una  interfaz  compatible  con  múltiples dispositivos  y  navegadores.  La  funcionalidad  administrativa  incluye  la  gestión  de agencias de viajes, rutas, usuarios y pasajes, mientras que los usuarios pueden registrar cuentas, autenticarse y realizar transacciones seguras. El diseño del sistema prioriza la usabilidad  y  accesibilidad,  incluso  para  usuarios  con  experiencia  limitada  en aplicaciones informáticas.
+“ViajAYA” es una plataforma de gestión y venta de pasajes que optimiza la compra y administración  de  viajes,  proporcionando  una  interfaz  compatible  con  múltiples dispositivos  y  navegadores.  La  funcionalidad  administrativa  incluye  la  gestión  de agencias de viajes, rutas, usuarios y pasajes, mientras que los usuarios pueden registrar cuentas, autenticarse y realizar transacciones seguras. El diseño del sistema prioriza la usabilidad  y  accesibilidad,  incluso  para  usuarios  con  experiencia  limitada  en aplicaciones informáticas..
 
 ## Documentación
 
